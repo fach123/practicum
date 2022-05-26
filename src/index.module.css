@@ -1,0 +1,10 @@
+.icon_style{
+    vertical-align: bottom;
+}
+.main{
+    margin: 0 340px;
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+}
