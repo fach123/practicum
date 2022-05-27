@@ -8,7 +8,7 @@ import Modal from "../modal/modal";
 const BurgerConstructor = (props) => {
     const [openModal, setOpenModal] = useState(false)
     const db = props.apiData.data;
-    const lastElement = db[db.length - 1];
+    const bun = db.find( ({ type }) => type === 'bun' );
     return (
         <div className={style.inner}>
             <div className={`${style.editor} mt-25`}>
@@ -16,9 +16,9 @@ const BurgerConstructor = (props) => {
                     <ConstructorElement
                         type="top"
                         isLocked={true}
-                        text={db[0].name}
-                        price={db[0].price}
-                        thumbnail={db[0].image_mobile}
+                        text={bun.name}
+                        price={bun.price}
+                        thumbnail={bun.image_mobile}
                     />
                 </div>
 
@@ -39,9 +39,9 @@ const BurgerConstructor = (props) => {
                     <ConstructorElement
                         type="bottom"
                         isLocked={true}
-                        text={lastElement.name}
-                        price={lastElement.price}
-                        thumbnail={lastElement.image_mobile}
+                        text={bun.name}
+                        price={bun.price}
+                        thumbnail={bun.image_mobile}
                     />
                 </div>
             </div>

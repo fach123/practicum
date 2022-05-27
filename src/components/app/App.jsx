@@ -12,8 +12,12 @@ function App() {
 
     useEffect(() => {
         fetch(apiUrl)
-            .then(response => response.json())
-            .then(data => setApiData(data))
+            .then(response => {
+                if(response.ok){
+                response.json().then(data => setApiData(data))
+                }
+            })
+
             .catch((error) => {
                 console.error('Error:', error);
             });

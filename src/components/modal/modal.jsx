@@ -25,18 +25,20 @@ const ModalBlock = (props) => {
     }
 
     return (
-        <ModalOverlay onClick={closeModal}>
+        <>
+
             <div className={`${style.modal} p-10`} onClick={event => event.stopPropagation()}>
                 <div className={style.modal_header}>
                     <p className="text text_type_main-large">
                         {props.title}</p>
                     <span className={style.close}>
-                <CloseIcon onClick={closeModal} type="primary"/>
-                    </span>
+                    <CloseIcon onClick={closeModal} type="primary"/>
+                </span>
                 </div>
                 {props.children}
             </div>
-        </ModalOverlay>
+
+            <ModalOverlay onClick={closeModal}/></>
     )
 }
 

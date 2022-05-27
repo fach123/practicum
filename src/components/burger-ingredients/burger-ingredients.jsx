@@ -7,18 +7,18 @@ import style from "./burger-ingredients.module.css";
 const BurgerIngredients = (props) => {
     const [current, setCurrent] = useState('one');
     const db = props.apiData.data;
-    const showItem = (name, type) => {
+    const ShowItem = ({name, type}) => {
         return (
             <>
                 <h3 className="text text_type_main-medium mt-10">{name}</h3>
                 <div className={style.content_list}>
-                    {showBurgerIngredient(db.filter(item => item.type === type))}
+                    <ShowBurgerIngredient filtered={db.filter(item => item.type === type)}/>
                 </div>
             </>
         );
     }
 
-    const showBurgerIngredient = (filtered) => {
+    const ShowBurgerIngredient = ({filtered}) => {
         return (
             filtered.map((item) => <BurgerIngredient key={item._id} {...item}/>
             )
@@ -36,9 +36,9 @@ const BurgerIngredients = (props) => {
             <div className={`${style.content} custom-scroll`}>
                 {
                     <>
-                        {showItem('Булки', 'bun')}
-                        {showItem('Соусы', 'sauce')}
-                        {showItem('Начинки', 'main')}
+                        <ShowItem name="Булки" type="bun"/>
+                        <ShowItem name="Соусы" type="sauce"/>
+                        <ShowItem name="Начинки" type="main"/>
                     </>
                 }
             </div>
