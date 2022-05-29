@@ -1,0 +1,21 @@
+.item {
+    position: relative;
+    width: 272px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 32px;
+    cursor: pointer;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+}
+
+.counter {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
