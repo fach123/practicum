@@ -1,75 +1,80 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
-import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import style from "./burger-ingredients.module.css";
 
 const BurgerIngredients = (props) => {
-    const [current, setCurrent] = useState('one');
-    const db = props.apiData.data;
-    const ShowItem = ({name, type}) => {
-        return (
-            <>
-                <h3 className="text text_type_main-medium mt-10">{name}</h3>
-                <div className={style.content_list}>
-                    <ShowBurgerIngredient filtered={db.filter(item => item.type === type)}/>
-                </div>
-            </>
-        );
-    }
-
-    const ShowBurgerIngredient = ({filtered}) => {
-        return (
-            filtered.map((item) => <BurgerIngredient key={item._id} {...item}/>
-            )
-        )
-    }
-
+  const [current, setCurrent] = useState("one");
+  const db = props.apiData.data;
+  const ShowItem = ({ name, type }) => {
     return (
-        <div className={`${style.inner} mr-10`}>
-            <h1 className="text text_type_main-large mt-10">Соберите бургер</h1>
-            <div className={`${style.tabs} mt-5`}>
-                <Tab value="one" active={current === 'one'} onClick={setCurrent}>Булки</Tab>
-                <Tab value="two" active={current === 'two'} onClick={setCurrent}>Соусы</Tab>
-                <Tab value="three" active={current === 'three'} onClick={setCurrent}>Начинки</Tab>
-            </div>
-            <div className={`${style.content} custom-scroll`}>
-                {
-                    <>
-                        <ShowItem name="Булки" type="bun"/>
-                        <ShowItem name="Соусы" type="sauce"/>
-                        <ShowItem name="Начинки" type="main"/>
-                    </>
-                }
-            </div>
+      <>
+        <h3 className="text text_type_main-medium mt-10">{name}</h3>
+        <div className={style.content_list}>
+          <ShowBurgerIngredient
+            filtered={db.filter((item) => item.type === type)}
+          />
         </div>
-    )
-}
-const BurgerIngredientsPropTypes = PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-    calories: PropTypes.number.isRequired,
-    proteins: PropTypes.number.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-    image_mobile: PropTypes.string.isRequired,
-    image_large: PropTypes.string.isRequired,
+      </>
+    );
+  };
 
-})
+  const ShowBurgerIngredient = ({ filtered }) => {
+    return filtered.map((item) => (
+      <BurgerIngredient key={item._id} {...item} />
+    ));
+  };
+
+  return (
+    <div className={`${style.inner} mr-10`}>
+      <h1 className="text text_type_main-large mt-10">Соберите бургер</h1>
+      <div className={`${style.tabs} mt-5`}>
+        <Tab value="one" active={current === "one"} onClick={setCurrent}>
+          Булки
+        </Tab>
+        <Tab value="two" active={current === "two"} onClick={setCurrent}>
+          Соусы
+        </Tab>
+        <Tab value="three" active={current === "three"} onClick={setCurrent}>
+          Начинки
+        </Tab>
+      </div>
+      <div className={`${style.content} custom-scroll`}>
+        {
+          <>
+            <ShowItem name="Булки" type="bun" />
+            <ShowItem name="Соусы" type="sauce" />
+            <ShowItem name="Начинки" type="main" />
+          </>
+        }
+      </div>
+    </div>
+  );
+};
+const BurgerIngredientsPropTypes = PropTypes.shape({
+  _id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  fat: PropTypes.number.isRequired,
+  carbohydrates: PropTypes.number.isRequired,
+  calories: PropTypes.number.isRequired,
+  proteins: PropTypes.number.isRequired,
+  price: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired,
+  image_mobile: PropTypes.string.isRequired,
+  image_large: PropTypes.string.isRequired,
+});
 
 const apiDataPropTypes = PropTypes.shape({
-    success: PropTypes.bool,
-    data: PropTypes.arrayOf(BurgerIngredientsPropTypes.isRequired).isRequired
-})
-
+  success: PropTypes.bool,
+  data: PropTypes.arrayOf(BurgerIngredientsPropTypes.isRequired).isRequired,
+});
 
 BurgerIngredients.propTypes = {
-    apiData: apiDataPropTypes,
-    setOpenModal: PropTypes.func,
-    openModal: PropTypes.object,
-}
+  apiData: apiDataPropTypes,
+  setOpenModal: PropTypes.func,
+  openModal: PropTypes.object,
+};
 
 export default BurgerIngredients;
