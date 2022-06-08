@@ -7,15 +7,47 @@ import {
 import style from "./burger-ingredient.module.css";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
+import { useDrag } from "react-dnd";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  DROP_ITEM_BUN,
+  DROP_ITEM_INGREDIENT,
+  SET_DRAGGED,
+} from "../../services/actions/constructor";
 
 const BurgerIngredient = (props) => {
   const [openModal, setOpenModal] = useState(false);
-  const { image, name, price } = props;
+  const dispatch = useDispatch();
+  const { ingredients } = useSelector((store) => store.burgerConstructor);
+  const { image, name, price, _id } = props;
+  const item = props;
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "NEW_INGREDIENT",
+    item: item,
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+      handlerId: monitor.getHandlerId(),
+      itemType: monitor.getItemType(),
+    }),
+  }));
+  const opacity = isDragging ? 0.4 : 1;
   return (
     <>
-      <div className={`${style.item}`} onClick={() => setOpenModal(true)}>
+      <div
+        ref={drag}
+        className={`${style.item}`}
+        style={{ opacity: opacity }}
+        onClick={() => setOpenModal(true)}
+      >
         <div className={style.counter}>
-          <Counter count={1} size="default" />
+          <Counter
+            count={
+              ingredients.filter((item) => {
+                return item._id === _id;
+              }).length
+            }
+            size="default"
+          />
         </div>
         <div className="pr-4 pl-4">
           <img src={image} alt={name} />

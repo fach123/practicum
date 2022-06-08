@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import {
   ConstructorElement,
@@ -9,54 +9,125 @@ import {
 import style from "./burger-constructor.module.css";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
+import { useDispatch, useSelector } from "react-redux";
+import { useDrag, useDrop } from "react-dnd";
+import {
+  DELETE_ITEM,
+  DROP_ITEM_BUN,
+  DROP_ITEM_INGREDIENT,
+  SET_DRAGGED,
+} from "../../services/actions/constructor";
 
 const BurgerConstructor = (props) => {
   const [openModal, setOpenModal] = useState(false);
-  const db = props.apiData.data;
-  const bun = db.find(({ type }) => type === "bun");
-  return (
-    <div className={style.inner}>
-      <div className={`${style.editor} mt-25`}>
-        <div className="mr-4">
+  const { bun, ingredients, draggedIngredient } = useSelector(
+    (store) => store.burgerConstructor
+  );
+  const dispatch = useDispatch();
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: ["SORT_INGREDIENT", "NEW_INGREDIENT"],
+    drop: (item) => {
+      if (item.type === "bun") {
+        dispatch(DROP_ITEM_BUN(item));
+      } else {
+        dispatch(DROP_ITEM_INGREDIENT(item));
+      }
+    },
+    hover(item, monitor) {
+      const itemType = monitor.getItemType();
+      if (itemType === "NEW_INGREDIENT" && item.type !== "bun") {
+        //dispatch(SET_DRAGGED(item));
+      }
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+  }));
+
+  const totalPrice = useMemo(() => {
+    let bunPrice = 0;
+    if (bun) {
+      bunPrice = bun.price * 2;
+    }
+    return ingredients.reduce((acc, item) => acc + item.price, 0) + bunPrice;
+  }, [bun, ingredients]);
+
+  const ShowBulka = (props) => {
+    return (
+      <>
+        {bun ? (
           <ConstructorElement
-            type="top"
+            type={props.type}
             isLocked={true}
             text={bun.name}
             price={bun.price}
-            thumbnail={bun.image_mobile}
+            thumbnail={bun.image}
           />
+        ) : (
+          <div
+            className={
+              "constructor-element constructor-element_empty constructor-element_pos_" +
+              props.type
+            }
+          >
+            <span className="constructor-element__text">Выберите Булочки</span>
+          </div>
+        )}
+      </>
+    );
+  };
+  const ShowIngredient = (item) => {
+    const [g, drag] = useDrag(() => ({
+      type: "SORT_INGREDIENT",
+      item: item,
+    }));
+    return (
+      <div ref={drag} className={style.item} key={item.key}>
+        <span className="mr-3">
+          <DragIcon type="primary" />
+        </span>
+        <ConstructorElement
+          text={item.name}
+          price={item.price}
+          thumbnail={item.image_mobile}
+          handleClose={() => dispatch(DELETE_ITEM(item))}
+        />
+      </div>
+    );
+  };
+  return (
+    <div className={style.inner}>
+      <div ref={drop} className={`${style.editor} mt-25`}>
+        <div className="mr-4">
+          <ShowBulka type="top" />
         </div>
 
         <div className={`${style.inner_child} custom-scroll pr-2`}>
-          {db
-            .filter((el) => el.type !== "bun")
-            .map((el, i) => (
-              <div className={style.item} key={i}>
-                <span className="mr-3">
-                  <DragIcon type="primary" />
+          {ingredients.length > 0 ? (
+            ingredients.map((item, i) => (
+              <ShowIngredient {...item} key={item.uuid} />
+            ))
+          ) : (
+            <div className={style.item}>
+              <div className="constructor-element constructor-element_empty">
+                <span className="constructor-element__text">
+                  Выберите Начинку
                 </span>
-                <ConstructorElement
-                  text={el.name}
-                  price={el.price}
-                  thumbnail={el.image_mobile}
-                />
               </div>
-            ))}
+            </div>
+          )}
         </div>
 
         <div className="mr-4">
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text={bun.name}
-            price={bun.price}
-            thumbnail={bun.image_mobile}
-          />
+          <ShowBulka type="bottom" />
         </div>
       </div>
       <div className={`${style.order} mt-10`}>
         <div className={`mr-10`}>
-          <span className="text text_type_digits-medium mr-1">123</span>
+          <span className="text text_type_digits-medium mr-1">
+            {totalPrice}
+          </span>
           <CurrencyIcon type="primary" />
         </div>
         <Button type="primary" size="large" onClick={() => setOpenModal(true)}>
@@ -71,22 +142,8 @@ const BurgerConstructor = (props) => {
     </div>
   );
 };
-const BurgerConstructorPropTypes = PropTypes.shape({
-  _id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-  image_mobile: PropTypes.string.isRequired,
-});
-
-const apiDataPropTypes = PropTypes.shape({
-  success: PropTypes.bool,
-  data: PropTypes.arrayOf(BurgerConstructorPropTypes.isRequired).isRequired,
-});
 
 BurgerConstructor.propTypes = {
-  apiData: apiDataPropTypes,
   setOpenModal: PropTypes.func,
   openModal: PropTypes.object,
 };

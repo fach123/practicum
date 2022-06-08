@@ -14,3 +14,10 @@
 .constructor-element_pos_bottom {
   min-width: 488px !important;
 }
+.constructor-element_empty {
+  text-align: center;
+  line-height: 3em !important;
+}
+.constructor-element {
+  min-width: 488px;
+}
