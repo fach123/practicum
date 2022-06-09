@@ -18,7 +18,7 @@ import {
   SET_DRAGGED,
 } from "../../services/actions/constructor";
 
-const BurgerConstructor = (props) => {
+const BurgerConstructor = () => {
   const [openModal, setOpenModal] = useState(false);
   const { bun, ingredients, draggedIngredient } = useSelector(
     (store) => store.burgerConstructor
@@ -77,13 +77,16 @@ const BurgerConstructor = (props) => {
       </>
     );
   };
+  ShowBulka.propTypes = {
+    type: PropTypes.string,
+  };
   const ShowIngredient = (item) => {
     const [g, drag] = useDrag(() => ({
       type: "SORT_INGREDIENT",
       item: item,
     }));
     return (
-      <div ref={drag} className={style.item} key={item.key}>
+      <div ref={drag} className={style.item}>
         <span className="mr-3">
           <DragIcon type="primary" />
         </span>
@@ -106,7 +109,7 @@ const BurgerConstructor = (props) => {
         <div className={`${style.inner_child} custom-scroll pr-2`}>
           {ingredients.length > 0 ? (
             ingredients.map((item, i) => (
-              <ShowIngredient {...item} key={item.uuid} />
+              <ShowIngredient {...item} key={item.constructorId} />
             ))
           ) : (
             <div className={style.item}>

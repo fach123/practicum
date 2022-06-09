@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import style from "./ingredient-details.module.css";
+import { useDispatch } from "react-redux";
 
 const ProductProperties = ({ title, property }) => {
   return (

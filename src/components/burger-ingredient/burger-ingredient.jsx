@@ -68,6 +68,7 @@ const BurgerIngredient = (props) => {
 };
 
 BurgerIngredient.propTypes = {
+  _id: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
