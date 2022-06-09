@@ -1,12 +1,4 @@
-//import { combineReducers } from 'redux';
-import {
-  LIST_PENDING,
-  LIST_FAILED,
-  LIST_SUCCESS,
-  ORDER_PENDING,
-  ORDER_FAILED,
-  ORDER_SUCCESS,
-} from "../actions/api";
+import { getIngredients, sendOrder } from "../actions/api";
 import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -21,27 +13,27 @@ const initialState = {
 
 export const apiReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(LIST_PENDING, (state, action) => {
+    .addCase(getIngredients.pending, (state, action) => {
       state.itemsRequest = true;
     })
-    .addCase(LIST_FAILED, (state, action) => {
+    .addCase(getIngredients.rejected, (state, action) => {
       state.itemsRequest = false;
       state.itemsFailed = true;
     })
-    .addCase(LIST_SUCCESS, (state, action) => {
+    .addCase(getIngredients.fulfilled, (state, action) => {
       state.itemsRequest = false;
       state.itemsFailed = false;
       state.items = action.payload;
     })
-    .addCase(ORDER_PENDING, (state, action) => {
+    .addCase(sendOrder.pending, (state, action) => {
       state.orderItemsRequest = true;
       state.orderItems = {};
     })
-    .addCase(ORDER_FAILED, (state, action) => {
+    .addCase(sendOrder.rejected, (state, action) => {
       state.orderItemsRequest = false;
       state.orderItemsFailed = false;
     })
-    .addCase(ORDER_SUCCESS, (state, action) => {
+    .addCase(sendOrder.fulfilled, (state, action) => {
       console.log(action);
       state.orderItemsRequest = false;
       state.orderItemsFailed = false;

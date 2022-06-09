@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import style from "./burger-ingredients.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/actions/api";
 import { ShowItem } from "./show-item-ingredient";
-import { useDrag } from "react-dnd";
 import Preloader from "../preloader/preloader";
 
 const BurgerIngredients = () => {
@@ -23,7 +21,6 @@ const BurgerIngredients = () => {
 
   useEffect(() => {
     dispatch(getIngredients());
-    console.log("render");
   }, [dispatch]);
   const setCurrentById = useCallback(
     (name) => {
@@ -34,17 +31,9 @@ const BurgerIngredients = () => {
     },
     [currentTabRef.current]
   );
-  /*const setCurrentById = (name) => {
-            if (current !== name) {
-        
-              setCurrent(name);
-              console.log(`changed from ${current} to ${name}`);
-            }
-          };*/
-
   const onScroll = () => {
-    let rectBul = scrollLabel_bul.current.getBoundingClientRect();
-    let rectSauce = scrollLabel_sauce.current.getBoundingClientRect();
+    const rectBul = scrollLabel_bul.current.getBoundingClientRect();
+    const rectSauce = scrollLabel_sauce.current.getBoundingClientRect();
     //let rectFillings = scrollLabel_fillings.current.getBoundingClientRect();
     if (rectBul.y < 150 && rectSauce.y > 150) {
       setCurrentById("sauce");

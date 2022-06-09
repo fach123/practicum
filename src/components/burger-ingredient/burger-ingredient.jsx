@@ -8,16 +8,10 @@ import style from "./burger-ingredient.module.css";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import { useDrag } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  DROP_ITEM_BUN,
-  DROP_ITEM_INGREDIENT,
-  SET_DRAGGED,
-} from "../../services/actions/constructor";
+import { useSelector } from "react-redux";
 
 const BurgerIngredient = (props) => {
   const [openModal, setOpenModal] = useState(false);
-  const dispatch = useDispatch();
   const { ingredients } = useSelector((store) => store.burgerConstructor);
   const { image, name, price, _id } = props;
   const item = props;
@@ -31,6 +25,12 @@ const BurgerIngredient = (props) => {
     }),
   }));
   const opacity = isDragging ? 0.4 : 1;
+  const GetCount = () => {
+    const counter = ingredients.filter((item) => {
+      return item._id === _id;
+    }).length;
+    return counter > 0 ? <Counter count={counter} size="default" /> : "";
+  };
   return (
     <>
       <div
@@ -40,14 +40,7 @@ const BurgerIngredient = (props) => {
         onClick={() => setOpenModal(true)}
       >
         <div className={style.counter}>
-          <Counter
-            count={
-              ingredients.filter((item) => {
-                return item._id === _id;
-              }).length
-            }
-            size="default"
-          />
+          <GetCount />
         </div>
         <div className="pr-4 pl-4">
           <img src={image} alt={name} />

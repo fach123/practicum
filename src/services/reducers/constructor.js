@@ -1,4 +1,4 @@
-import { createReducer } from "@reduxjs/toolkit";
+import { createReducer, current } from "@reduxjs/toolkit";
 import {
   DELETE_ITEM,
   DROP_ITEM_BUN,
@@ -32,7 +32,15 @@ export const constructReducer = createReducer(initialState, (builder) => {
       state.ingredients = newIngredients;
     })
     .addCase(SORT_INGREDIENT, (state, action) => {
-      console.log(action.payload);
+      const dragIndex = state.ingredients.findIndex((itemObject) => {
+        return itemObject.constructorId === action.payload.from;
+      });
+      const hoverIndex = state.ingredients.findIndex((itemObject) => {
+        return itemObject.constructorId === action.payload.to;
+      });
+      const dragCard = state.ingredients[dragIndex];
+      state.ingredients.splice(dragIndex, 1);
+      state.ingredients.splice(hoverIndex, 0, dragCard);
     })
     .addCase(SET_DRAGGED, (state, action) => {})
     .addCase(DELETE_ITEM, (state, action) => {

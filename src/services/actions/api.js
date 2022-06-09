@@ -1,12 +1,4 @@
-import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
-
-export const LIST_PENDING = createAction("main/fetchList/pending");
-export const LIST_FAILED = createAction("main/fetchList/rejected");
-export const LIST_SUCCESS = createAction("main/fetchList/fulfilled");
-
-export const ORDER_PENDING = createAction("main/fetchOrder/pending");
-export const ORDER_FAILED = createAction("main/fetchOrder/rejected");
-export const ORDER_SUCCESS = createAction("main/fetchOrder/fulfilled");
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const apiUrl = "https://norma.nomoreparties.space/api/";
 export const getIngredients = createAsyncThunk(
