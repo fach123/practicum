@@ -7,8 +7,6 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
   DELETE_ITEM,
-  DROP_ITEM_BUN,
-  DROP_ITEM_INGREDIENT,
   SORT_INGREDIENT,
 } from "../../services/actions/constructor";
 import PropTypes from "prop-types";
@@ -22,7 +20,7 @@ export const ShowIngredient = (item) => {
   });
   const dispatch = useDispatch();
 
-  const [{ isOver }, drop] = useDrop(() => ({
+  const [, drop] = useDrop(() => ({
     accept: ["SORT_INGREDIENT"],
 
     drop(draggedItem) {

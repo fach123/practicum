@@ -12,7 +12,7 @@ export const ShowItem = React.memo(
     const { items } = useSelector((store) => store.api);
     const filtered = React.useMemo(
       () => items.filter((item) => item.type === type),
-      [items]
+      [items, type]
     );
 
     return (

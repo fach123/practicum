@@ -1,21 +1,17 @@
 import React, { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import {
-  ConstructorElement,
   Button,
-  DragIcon,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-constructor.module.css";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
 import { useDispatch, useSelector } from "react-redux";
-import { useDrag, useDrop } from "react-dnd";
+import { useDrop } from "react-dnd";
 import {
-  DELETE_ITEM,
   DROP_ITEM_BUN,
   DROP_ITEM_INGREDIENT,
-  SORT_INGREDIENT,
 } from "../../services/actions/constructor";
 import { ShowBuls } from "./show-buls";
 import { ShowIngredient } from "./show-ingredient";
@@ -24,7 +20,7 @@ const BurgerConstructor = () => {
   const [openModal, setOpenModal] = useState(false);
   const { bun, ingredients } = useSelector((store) => store.burgerConstructor);
   const dispatch = useDispatch();
-  const [{ isOver }, drop] = useDrop(() => ({
+  const [, drop] = useDrop(() => ({
     accept: ["SORT_INGREDIENT", "NEW_INGREDIENT"],
     drop: (item, monitor) => {
       const itemType = monitor.getItemType();

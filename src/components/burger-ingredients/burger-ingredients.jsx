@@ -22,16 +22,14 @@ const BurgerIngredients = () => {
   useEffect(() => {
     dispatch(getIngredients());
   }, [dispatch]);
-  const setCurrentById = useCallback(
-    (name) => {
-      if (currentTabRef.current !== name) {
-        setCurrent(name);
-        console.log(`changed from ${currentTabRef.current} to ${name}`);
-      }
-    },
-    [currentTabRef.current]
-  );
-  const onScroll = () => {
+  const setCurrentById = useCallback((name) => {
+    if (currentTabRef.current !== name) {
+      setCurrent(name);
+      console.log(`changed from ${currentTabRef.current} to ${name}`);
+    }
+  }, []);
+
+  const onScroll = useCallback(() => {
     const rectBul = scrollLabel_bul.current.getBoundingClientRect();
     const rectSauce = scrollLabel_sauce.current.getBoundingClientRect();
     //let rectFillings = scrollLabel_fillings.current.getBoundingClientRect();
@@ -42,7 +40,7 @@ const BurgerIngredients = () => {
     } else {
       setCurrentById("bul");
     }
-  };
+  }, [setCurrentById]);
 
   useEffect(() => {
     const block = scrollBlock.current;
@@ -50,7 +48,7 @@ const BurgerIngredients = () => {
     return () => {
       block.removeEventListener("scroll", onScroll);
     };
-  }, []);
+  }, [onScroll]);
   const scrollTo = (block) => {
     block.scrollIntoView({
       behavior: "smooth",

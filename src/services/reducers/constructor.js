@@ -1,4 +1,4 @@
-import { createReducer, current } from "@reduxjs/toolkit";
+import { createReducer } from "@reduxjs/toolkit";
 import {
   DELETE_ITEM,
   DROP_ITEM_BUN,
