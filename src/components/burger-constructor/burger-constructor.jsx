@@ -1,83 +1,101 @@
-import React, {useState} from "react";
+import React, { useMemo, useState } from "react";
 import PropTypes from "prop-types";
-import {ConstructorElement, Button, DragIcon, CurrencyIcon,} from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  Button,
+  CurrencyIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-constructor.module.css";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
+import { useDispatch, useSelector } from "react-redux";
+import { useDrop } from "react-dnd";
+import {
+  DROP_ITEM_BUN,
+  DROP_ITEM_INGREDIENT,
+} from "../../services/actions/constructor";
+import { ShowBuls } from "./show-buls";
+import { ShowIngredient } from "./show-ingredient";
 
-const BurgerConstructor = (props) => {
-    const [openModal, setOpenModal] = useState(false)
-    const db = props.apiData.data;
-    const bun = db.find( ({ type }) => type === 'bun' );
-    return (
-        <div className={style.inner}>
-            <div className={`${style.editor} mt-25`}>
-                <div className="mr-4">
-                    <ConstructorElement
-                        type="top"
-                        isLocked={true}
-                        text={bun.name}
-                        price={bun.price}
-                        thumbnail={bun.image_mobile}
-                    />
-                </div>
+const BurgerConstructor = () => {
+  const [openModal, setOpenModal] = useState(false);
+  const { bun, ingredients } = useSelector((store) => store.burgerConstructor);
+  const dispatch = useDispatch();
+  const [, drop] = useDrop(() => ({
+    accept: ["SORT_INGREDIENT", "NEW_INGREDIENT"],
+    drop: (item, monitor) => {
+      const itemType = monitor.getItemType();
+      if (itemType === "NEW_INGREDIENT") {
+        if (item.type === "bun") {
+          dispatch(DROP_ITEM_BUN(item));
+        } else {
+          dispatch(DROP_ITEM_INGREDIENT(item));
+        }
+      } else if (itemType === "SORT_INGREDIENT") {
+      }
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+  }));
 
-                <div className={`${style.inner_child} custom-scroll pr-2`}>
-                    {db
-                        .filter((el) => el.type !== "bun")
-                        .map((el, i) => (
-                            <div className={style.item} key={i}>
-                                <span className="mr-3">
-                                  <DragIcon type="primary"/>
-                                </span>
-                                <ConstructorElement text={el.name} price={el.price} thumbnail={el.image_mobile}/>
-                            </div>
-                        ))}
-                </div>
+  const totalPrice = useMemo(() => {
+    let bunPrice = 0;
+    if (bun) {
+      bunPrice = bun.price * 2;
+    }
+    return ingredients.reduce((acc, item) => acc + item.price, 0) + bunPrice;
+  }, [bun, ingredients]);
 
-                <div className="mr-4">
-                    <ConstructorElement
-                        type="bottom"
-                        isLocked={true}
-                        text={bun.name}
-                        price={bun.price}
-                        thumbnail={bun.image_mobile}
-                    />
-                </div>
-            </div>
-            <div className={`${style.order} mt-10`}>
-                <div className={`mr-10`}>
-                    <span className="text text_type_digits-medium mr-1">123</span>
-                    <CurrencyIcon type="primary"/>
-                </div>
-                <Button type="primary" size="large" onClick={() => setOpenModal(true)}>
-                    Оформить заказ
-                </Button>
-            </div>
-            {openModal && <Modal setOpenModal={setOpenModal} title=""><OrderDetails/></Modal>}
+  return (
+    <div className={style.inner}>
+      <div ref={drop} className={`${style.editor} mt-25`}>
+        <div className="mr-4">
+          <ShowBuls type="top" bun={bun} />
         </div>
-    );
+
+        <div className={`${style.inner_child} custom-scroll pr-2`}>
+          {ingredients.length > 0 ? (
+            ingredients.map((item, i) => (
+              <ShowIngredient {...item} key={item.constructorId} />
+            ))
+          ) : (
+            <div className={style.item}>
+              <div className="constructor-element constructor-element_empty">
+                <span className="constructor-element__text">
+                  Выберите Начинку
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="mr-4">
+          <ShowBuls type="bottom" bun={bun} />
+        </div>
+      </div>
+      <div className={`${style.order} mt-10`}>
+        <div className={`mr-10`}>
+          <span className="text text_type_digits-medium mr-1">
+            {totalPrice}
+          </span>
+          <CurrencyIcon type="primary" />
+        </div>
+        <Button type="primary" size="large" onClick={() => setOpenModal(true)}>
+          Оформить заказ
+        </Button>
+      </div>
+      {openModal && (
+        <Modal setOpenModal={setOpenModal} title="">
+          <OrderDetails />
+        </Modal>
+      )}
+    </div>
+  );
 };
-const BurgerConstructorPropTypes = PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-    image_mobile: PropTypes.string.isRequired,
-
-
-})
-
-const apiDataPropTypes = PropTypes.shape({
-    success: PropTypes.bool,
-    data: PropTypes.arrayOf(BurgerConstructorPropTypes.isRequired).isRequired
-})
-
 
 BurgerConstructor.propTypes = {
-    apiData: apiDataPropTypes,
-    setOpenModal: PropTypes.func,
-    openModal: PropTypes.object,
-}
+  setOpenModal: PropTypes.func,
+  openModal: PropTypes.object,
+};
 export default BurgerConstructor;
