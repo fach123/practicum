@@ -1,0 +1,18 @@
+.inner {
+  width: 50%;
+}
+
+.tabs {
+  display: flex;
+}
+
+.content {
+  max-height: calc(100vh - 244px);
+  overflow-y: auto;
+}
+
+.content_list {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 24px 16px 0;
+}
