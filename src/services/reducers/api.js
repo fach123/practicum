@@ -6,7 +6,9 @@ import {
   goLogout,
   goForgotPassword,
   goResetPassword,
-  getUser, UPDATE_USER,
+  getUser,
+  UPDATE_USER,
+  goChangeUser,
 } from "../actions/api";
 import { createReducer } from "@reduxjs/toolkit";
 
@@ -41,6 +43,9 @@ const initialState = {
 
   getUserRequest: false,
   getUserFailed: false,
+
+  changeUserRequest: false,
+  changeUserFailed: false,
 };
 
 export const apiReducer = createReducer(initialState, (builder) => {
@@ -149,13 +154,27 @@ export const apiReducer = createReducer(initialState, (builder) => {
       state.getUserFailed = true;
     })
     .addCase(getUser.fulfilled, (state, action) => {
-      console.log(action)
+      console.log(action);
       state.getUserRequest = false;
       state.getUserFailed = false;
       state.user.user = action.payload.user;
       localStorage.setItem("user", JSON.stringify(state.user));
     })
-      .addCase(UPDATE_USER, (state, action) => {
-      state.user = action.payload
+    .addCase(UPDATE_USER, (state, action) => {
+      state.user = action.payload;
     })
+    .addCase(goChangeUser.pending, (state, action) => {
+      state.changeUserRequest = true;
+    })
+    .addCase(goChangeUser.rejected, (state, action) => {
+      state.changeUserRequest = false;
+      state.changeUserFailed = true;
+    })
+    .addCase(goChangeUser.fulfilled, (state, action) => {
+      console.log(action);
+      state.changeUserRequest = false;
+      state.changeUserFailed = false;
+      state.user.user = action.payload.user;
+      localStorage.setItem("user", JSON.stringify(state.user));
+    });
 });

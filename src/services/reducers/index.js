@@ -6,5 +6,5 @@ import { modalReducer } from "./modal-details";
 export const rootReducer = combineReducers({
   api: apiReducer,
   burgerConstructor: constructReducer,
-  modal: modalReducer
+  modal: modalReducer,
 });

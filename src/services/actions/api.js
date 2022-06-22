@@ -1,58 +1,66 @@
-import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 
 const apiUrl = "https://norma.nomoreparties.space/api/";
 
 export const UPDATE_USER = createAction("api/update_user");
 
-const updateUser = (user,dispatch) => {
-    const userOriginal = JSON.parse(localStorage.getItem("user"));
-    if(userOriginal){
-        userOriginal.accessToken = user.accessToken
-        userOriginal.refreshToken = user.refreshToken
-        localStorage.setItem("user", JSON.stringify(userOriginal));
-        dispatch(UPDATE_USER(userOriginal))
-    }
-}
+const updateUser = (user, dispatch) => {
+  const userOriginal = JSON.parse(localStorage.getItem("user"));
+  if (userOriginal) {
+    userOriginal.accessToken = user.accessToken;
+    userOriginal.refreshToken = user.refreshToken;
+    localStorage.setItem("user", JSON.stringify(userOriginal));
+    dispatch(UPDATE_USER(userOriginal));
+  }
+};
 const checkReponse = (response) => {
-    //return Promise.reject({success:false,message:'jwt expired'})
-    console.log(response)
-    if (response.ok) {
-        return response.json().then((data) => {
-            if (data.success) {
-                return data;
-            } else {
-                Promise.reject(data)
-            }
-        }).catch((error) => {
-            console.log(error);
-            return Promise.reject(error)
-        });
-    } else {
-        return response.json().then((data) => {
-            return Promise.reject(data)
-        }).catch((error) => {
-            console.log(error);
-            return Promise.reject(error)
-        });
-    }
-}
+  //return Promise.reject({success:false,message:'jwt expired'})
+  console.log(response);
+  if (response.ok) {
+    return response
+      .json()
+      .then((data) => {
+        if (data.success) {
+          return data;
+        } else {
+          Promise.reject(data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        return Promise.reject(error);
+      });
+  } else {
+    return response
+      .json()
+      .then((data) => {
+        return Promise.reject(data);
+      })
+      .catch((error) => {
+        console.log(error);
+        return Promise.reject(error);
+      });
+  }
+};
 const refreshToken = (token) => {
-    return fetch(`${apiUrl}auth/token`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json;charset=utf-8",
-        },
-        body: JSON.stringify({
-            token: token,
-        }),
-    }).then((response) => {
-        return checkReponse(response).then((data) => {
-            return data;
-        }).catch((error) => {
-            console.log(error);
-            return Promise.reject(error)
-        })
-    })
+  return fetch(`${apiUrl}auth/token`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify({
+      token: token,
+    }),
+  }).then((response) => {
+    return checkReponse(response)
+      .then((data) => {
+        return data;
+      })
+      .catch((error) => {
+        console.log(error);
+        return Promise.reject(error);
+      });
+  });
 };
 export const getIngredients = createAsyncThunk(
   "main/fetchList",
@@ -60,12 +68,14 @@ export const getIngredients = createAsyncThunk(
     try {
       return await fetch(apiUrl + "ingredients")
         .then((response) => {
-            return checkReponse(response).then((data) => {
-                return data.data;
-            }).catch((error) => {
-                console.log(error);
-                return rejectWithValue([], error);
+          return checkReponse(response)
+            .then((data) => {
+              return data.data;
             })
+            .catch((error) => {
+              console.log(error);
+              return rejectWithValue([], error);
+            });
         })
         .catch((error) => {
           console.log(error);
@@ -87,14 +97,16 @@ export const sendOrder = createAsyncThunk(
         },
         body: JSON.stringify(data),
       })
-          .then((response) => {
-              return checkReponse(response).then((data) => {
-                  return data;
-              }).catch((error) => {
-                  console.log(error);
-                  return rejectWithValue([], error);
-              })
-          })
+        .then((response) => {
+          return checkReponse(response)
+            .then((data) => {
+              return data;
+            })
+            .catch((error) => {
+              console.log(error);
+              return rejectWithValue([], error);
+            });
+        })
         .catch((error) => {
           console.log(error);
           return rejectWithValue([], error);
@@ -116,14 +128,16 @@ export const goRegister = createAsyncThunk(
         },
         body: JSON.stringify(data),
       })
-          .then((response) => {
-              return checkReponse(response).then((data) => {
-                  return data;
-              }).catch((error) => {
-                  console.log(error);
-                  return rejectWithValue([], error);
-              })
-          })
+        .then((response) => {
+          return checkReponse(response)
+            .then((data) => {
+              return data;
+            })
+            .catch((error) => {
+              console.log(error);
+              return rejectWithValue([], error);
+            });
+        })
         .catch((error) => {
           console.log(error);
           return rejectWithValue([], error);
@@ -144,14 +158,16 @@ export const goLogin = createAsyncThunk(
         },
         body: JSON.stringify(data),
       })
-          .then((response) => {
-              return checkReponse(response).then((data) => {
-                  return data;
-              }).catch((error) => {
-                  console.log(error);
-                  return rejectWithValue([], error);
-              })
-          })
+        .then((response) => {
+          return checkReponse(response)
+            .then((data) => {
+              return data;
+            })
+            .catch((error) => {
+              console.log(error);
+              return rejectWithValue([], error);
+            });
+        })
         .catch((error) => {
           console.log(error);
           return rejectWithValue([], error);
@@ -172,14 +188,16 @@ export const goLogout = createAsyncThunk(
         },
         body: JSON.stringify(data),
       })
-          .then((response) => {
-              return checkReponse(response).then((data) => {
-                  return data;
-              }).catch((error) => {
-                  console.log(error);
-                  return rejectWithValue([], error);
-              })
-          })
+        .then((response) => {
+          return checkReponse(response)
+            .then((data) => {
+              return data;
+            })
+            .catch((error) => {
+              console.log(error);
+              return rejectWithValue([], error);
+            });
+        })
         .catch((error) => {
           console.log(error);
           return rejectWithValue([], error);
@@ -200,14 +218,16 @@ export const goForgotPassword = createAsyncThunk(
         },
         body: JSON.stringify(email),
       })
-          .then((response) => {
-              return checkReponse(response).then((data) => {
-                  return email.email;
-              }).catch((error) => {
-                  console.log(error);
-                  return rejectWithValue([], error);
-              })
-          })
+        .then((response) => {
+          return checkReponse(response)
+            .then((data) => {
+              return email.email;
+            })
+            .catch((error) => {
+              console.log(error);
+              return rejectWithValue([], error);
+            });
+        })
         .catch((error) => {
           console.log(error);
           return rejectWithValue([], error);
@@ -228,14 +248,16 @@ export const goResetPassword = createAsyncThunk(
         },
         body: JSON.stringify(data),
       })
-          .then((response) => {
-              return checkReponse(response).then((data) => {
-                  return data;
-              }).catch((error) => {
-                  console.log(error);
-                  return rejectWithValue([], error);
-              })
-          })
+        .then((response) => {
+          return checkReponse(response)
+            .then((data) => {
+              return data;
+            })
+            .catch((error) => {
+              console.log(error);
+              return rejectWithValue([], error);
+            });
+        })
         .catch((error) => {
           console.log(error);
           return rejectWithValue([], error);
@@ -247,39 +269,82 @@ export const goResetPassword = createAsyncThunk(
 );
 //profile
 export const getUser = createAsyncThunk(
-    "main/fetchGetUser",
-    async (data, { dispatch, rejectWithValue }) => {
-        try {
-            return await fetch(apiUrl + "auth/user", {
-                method: "GET",
-                headers: {
-                    "authorization": data.accessToken,
-                },
+  "main/fetchGetUser",
+  async (data, { dispatch, rejectWithValue }) => {
+    try {
+      return await fetch(apiUrl + "auth/user", {
+        method: "GET",
+        headers: {
+          authorization: data.accessToken,
+        },
+      })
+        .then((response) => {
+          return checkReponse(response)
+            .then((dataTokens) => {
+              return dataTokens;
             })
-                .then((response) => {
-                    return checkReponse(response).then((dataTokens) => {
-                        return dataTokens;
-                    }).catch(async (error) => {
-                        if (error.message === "jwt expired") {
-                            const refreshData = await refreshToken(data.refreshToken);
-                            if (!refreshData.success) {
-                                return Promise.reject(refreshData);
-                            }
-                            updateUser(refreshData,dispatch);
-                            dispatch(getUser({...data,...refreshData}))
-                            return Promise.reject('jwt Updating...');
-                        } else {
-                            return Promise.reject(error);
-                        }
-                    })
-                })
-                .catch((error) => {
-                    console.log(error);
-                    return rejectWithValue([], error);
-                });
-        } catch (err) {
-            console.log(err);
-            return rejectWithValue([], err);
-        }
+            .catch(async (error) => {
+              if (error.message === "jwt expired") {
+                const refreshData = await refreshToken(data.refreshToken);
+                if (!refreshData.success) {
+                  return Promise.reject(refreshData);
+                }
+                updateUser(refreshData, dispatch);
+                dispatch(getUser({ ...data, ...refreshData }));
+                return Promise.reject("jwt Updating...");
+              } else {
+                return Promise.reject(error);
+              }
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+          return rejectWithValue([], error);
+        });
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue([], err);
     }
+  }
+);
+export const goChangeUser = createAsyncThunk(
+  "main/fetchChangeUser",
+  async (data, { dispatch, rejectWithValue }) => {
+    try {
+      return await fetch(apiUrl + "auth/user", {
+        method: "PATCH",
+        headers: {
+          authorization: data.accessToken,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data.user),
+      })
+        .then((response) => {
+          return checkReponse(response)
+            .then((dataTokens) => {
+              return dataTokens;
+            })
+            .catch(async (error) => {
+              if (error.message === "jwt expired") {
+                const refreshData = await refreshToken(data.refreshToken);
+                if (!refreshData.success) {
+                  return Promise.reject(refreshData);
+                }
+                updateUser(refreshData, dispatch);
+                dispatch(goChangeUser({ ...data, ...refreshData }));
+                return Promise.reject("jwt Updating...");
+              } else {
+                return Promise.reject(error);
+              }
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+          return rejectWithValue([], error);
+        });
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue([], err);
+    }
+  }
 );

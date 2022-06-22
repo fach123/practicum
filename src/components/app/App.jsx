@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Switch, Route, useLocation, useHistory } from "react-router-dom";
 import {
   RegisterPage,
@@ -15,16 +15,23 @@ import "../../index.css";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import { ProtectedRoute } from "../protected-route";
+import { getIngredients } from "../../services/actions/api";
+import { useDispatch } from "react-redux";
 
 function App() {
   const history = useHistory();
   const location = useLocation();
   const background = location.state && location.state.background;
+  const dispatch = useDispatch();
+
   const setOpenModal = (value) => {
     if (value === false) {
       history.goBack();
     }
   };
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, [dispatch]);
   return (
     <>
       <AppHeader />

@@ -17,11 +17,7 @@ const BurgerIngredients = () => {
   const scrollLabel_fillings = useRef(null);
   const scrollTabs = useRef(null);
   const { items } = useSelector((store) => store.api);
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, [dispatch]);
   const setCurrentById = useCallback((name) => {
     if (currentTabRef.current !== name) {
       setCurrent(name);

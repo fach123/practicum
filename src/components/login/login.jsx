@@ -4,15 +4,16 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { goLogin } from "../../services/actions/api";
 
 export const LoginBlock = () => {
   const { user } = useSelector((store) => store.api);
+  const history = useHistory();
   const dispatch = useDispatch();
-  const [state, setState] = useState({
+  const [stateForm, setStateForm] = useState({
     email: "",
     name: "",
     password: "",
@@ -23,24 +24,18 @@ export const LoginBlock = () => {
     const value = target.value;
     const name = target.name;
 
-    setState({
-      ...state,
+    setStateForm({
+      ...stateForm,
       [name]: value,
     });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(goLogin(state));
+    dispatch(goLogin(stateForm));
   };
   if (user.success) {
-    return (
-      <Redirect
-        to={{
-          pathname: "/",
-        }}
-      />
-    );
+    return <Redirect to={history.location.state?.from || "/"} />;
   }
   return (
     <div className={style.inner}>
@@ -52,7 +47,7 @@ export const LoginBlock = () => {
               type={"email"}
               placeholder={"E-mail"}
               name={"email"}
-              value={state.email}
+              value={stateForm.email}
               error={false}
               errorText={"Ошибка"}
               size={"default"}
@@ -64,7 +59,7 @@ export const LoginBlock = () => {
               type={"password"}
               placeholder={"Пароль"}
               name={"password"}
-              value={state.password}
+              value={stateForm.password}
               error={false}
               errorText={"Ошибка"}
               size={"default"}

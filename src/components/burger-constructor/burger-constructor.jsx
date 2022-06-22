@@ -15,7 +15,7 @@ import {
 } from "../../services/actions/constructor";
 import { ShowBuls } from "./show-buls";
 import { ShowIngredient } from "./show-ingredient";
-import {Redirect, useHistory} from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 
 const BurgerConstructor = () => {
   const { user } = useSelector((store) => store.api);
@@ -42,12 +42,12 @@ const BurgerConstructor = () => {
     }),
   }));
   const handleOrder = () => {
-    if(user.success){
-      setOpenModal(true)
-    }else{
-      history.replace({ pathname: '/login'});
+    if (user.success) {
+      setOpenModal(true);
+    } else {
+      history.replace({ pathname: "/login" });
     }
-  }
+  };
   const totalPrice = useMemo(() => {
     let bunPrice = 0;
     if (bun) {

@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import style from "./profile.module.css";
 import {
   Button,
@@ -14,7 +14,12 @@ import {
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import {getUser, goLogin, goLogout} from "../../services/actions/api";
+import {
+  getUser,
+  goChangeUser,
+  goLogin,
+  goLogout,
+} from "../../services/actions/api";
 
 const MenuElement = ({ title, to }) => {
   return (
@@ -27,8 +32,13 @@ const MenuElement = ({ title, to }) => {
     </li>
   );
 };
-const ProfileForm = ({ handleBackProfileData, handleSubmit, handleInputChange, state, user, }) => {
-
+const ProfileForm = ({
+  handleBackProfileData,
+  handleSubmit,
+  handleInputChange,
+  state,
+  user,
+}) => {
   return (
     <form className={style.form} onSubmit={handleSubmit}>
       <div className={style.inputs}>
@@ -96,11 +106,11 @@ export const ProfileBlock = () => {
     name: user.user.name,
     password: "",
   });
-  useEffect(()=>{
-    if(user.success){
-    dispatch(getUser(user))
+  useEffect(() => {
+    if (user.success) {
+      dispatch(getUser(user));
     }
-  },[])
+  }, []);
   const handleInputChange = (event) => {
     const target = event.target;
     const value = target.value;
@@ -111,16 +121,21 @@ export const ProfileBlock = () => {
       [name]: value,
     });
   };
-  const handleBackProfileData = () => {
+  const handleBackProfileData = (event) => {
+    event.preventDefault();
     setState({
       email: user.user.email,
       name: user.user.name,
       password: "",
     });
-  }
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("submit");
+    if (user.success) {
+      //let userData = state;
+      //userData.password === '' ? delete userData.password : userData.password;
+      dispatch(goChangeUser({ ...user, user: { ...state } }));
+    }
   };
 
   const handleLogout = () => {
