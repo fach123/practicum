@@ -5,29 +5,47 @@ import {
   Logo,
   ListIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { NavLink } from "react-router-dom";
 
 const AppHeader = () => {
   return (
     <header className={style.header}>
       <nav className={`${style.menu} pt-4 pb-4`}>
         <div className={style.inner}>
-          <a href="/" className={`${style.link_active} pr-5 pl-5 pt-4 pb-4`}>
-            <BurgerIcon type="primary" />
+          <NavLink
+            className={`${style.link} pr-5 pl-5 pt-4 pb-4`}
+            to="/"
+            exact
+            activeClassName={style.link_active}
+          >
+            <BurgerIcon type="secondary" />
             <p className="text text_type_main-default ml-2">Конструктор</p>
-          </a>
+          </NavLink>
 
-          <a href="/" className={`${style.link} pr-5 pl-5 pt-4 pb-4 ml-2`}>
+          <NavLink
+            href="/"
+            className={`${style.link} pr-5 pl-5 pt-4 pb-4 ml-2`}
+            to="/lenta"
+            exact
+            activeClassName={style.link_active}
+          >
             <ListIcon type="secondary" />
             <p className="text text_type_main-default ml-2">Лента заказов</p>
-          </a>
+          </NavLink>
 
           <div className={style.logotype}>
             <Logo />
           </div>
-          <a href="/" className={`${style.link_personal} pr-5 pl-5 pt-4 pb-4`}>
+          <NavLink
+            href="/"
+            className={`${style.link_personal} pr-5 pl-5 pt-4 pb-4`}
+            to="/profile"
+            exact
+            activeClassName={style.link_active}
+          >
             <ProfileIcon type="secondary" />
             <p className="text text_type_main-default ml-2">Личный кабинет</p>
-          </a>
+          </NavLink>
         </div>
       </nav>
     </header>
