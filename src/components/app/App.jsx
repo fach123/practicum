@@ -1,22 +1,73 @@
-import React from "react";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import React, { useEffect } from "react";
+import { Switch, Route, useLocation, useHistory } from "react-router-dom";
+import {
+  RegisterPage,
+  HomePage,
+  LoginPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
+  NotFound404,
+  IngredientDetailsPage,
+  ProfilePage,
+} from "../../pages";
 import AppHeader from "../app-header/app-header";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
-import style from "./App.module.css";
 import "../../index.css";
+import { IngredientDetails } from "../ingredient-details/ingredient-details";
+import Modal from "../modal/modal";
+import { ProtectedRoute } from "../protected-route";
+import { getIngredients } from "../../services/actions/api";
+import { useDispatch } from "react-redux";
 
 function App() {
+  const history = useHistory();
+  const location = useLocation();
+  const background = location.state && location.state.background;
+  const dispatch = useDispatch();
+
+  const setOpenModal = (value) => {
+    if (value === false) {
+      history.goBack();
+    }
+  };
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, [dispatch]);
   return (
     <>
       <AppHeader />
-      <div className={style.inner}>
-        <DndProvider backend={HTML5Backend}>
-          <BurgerIngredients />
-          <BurgerConstructor />
-        </DndProvider>
-      </div>
+      <Switch location={background || location}>
+        <Route path="/" exact={true}>
+          <HomePage />
+        </Route>
+        <Route path="/login" isAuth={true}>
+          <LoginPage />
+        </Route>
+        <Route path="/register" exact={true}>
+          <RegisterPage />
+        </Route>
+        <Route path="/forgot-password" exact={true}>
+          <ForgotPasswordPage />
+        </Route>
+        <Route path="/reset-password" exact={true}>
+          <ResetPasswordPage />
+        </Route>
+        <ProtectedRoute path="/profile">
+          <ProfilePage />
+        </ProtectedRoute>
+        <Route path="/ingredients/:id">
+          <IngredientDetailsPage />
+        </Route>
+        <Route>
+          <NotFound404 />
+        </Route>
+      </Switch>
+      {background && (
+        <Route path="/ingredients/:id">
+          <Modal title="Детали ингредиента" setOpenModal={setOpenModal}>
+            <IngredientDetails />
+          </Modal>
+        </Route>
+      )}
     </>
   );
 }

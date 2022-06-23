@@ -15,8 +15,11 @@ import {
 } from "../../services/actions/constructor";
 import { ShowBuls } from "./show-buls";
 import { ShowIngredient } from "./show-ingredient";
+import { Redirect, useHistory } from "react-router-dom";
 
 const BurgerConstructor = () => {
+  const { user } = useSelector((store) => store.api);
+  const history = useHistory();
   const [openModal, setOpenModal] = useState(false);
   const { bun, ingredients } = useSelector((store) => store.burgerConstructor);
   const dispatch = useDispatch();
@@ -38,7 +41,13 @@ const BurgerConstructor = () => {
       canDrop: monitor.canDrop(),
     }),
   }));
-
+  const handleOrder = () => {
+    if (user.success) {
+      setOpenModal(true);
+    } else {
+      history.replace({ pathname: "/login" });
+    }
+  };
   const totalPrice = useMemo(() => {
     let bunPrice = 0;
     if (bun) {
@@ -81,7 +90,7 @@ const BurgerConstructor = () => {
           </span>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large" onClick={() => setOpenModal(true)}>
+        <Button type="primary" size="large" onClick={handleOrder}>
           Оформить заказ
         </Button>
       </div>

@@ -25,11 +25,14 @@
   display: flex;
   color: var(--text-inactive-color);
   text-decoration: none;
+  z-index: 1;
 }
 
 .link_active {
-  composes: link;
   color: var(--text-primary-color);
+}
+.link_active svg {
+  fill: var(--text-primary-color);
 }
 
 .link_personal {

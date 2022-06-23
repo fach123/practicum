@@ -1,0 +1,18 @@
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 88px);
+}
+.link {
+  color: #4c4cff;
+  text-decoration: none;
+  margin-left: 8px;
+}
+.inputs div.input_size_default {
+  width: 480px !important;
+}
+.form {
+  text-align: center;
+}
