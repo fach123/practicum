@@ -59,7 +59,7 @@ const BurgerConstructor = (): JSX.Element => {
     }
     return (
       ingredients.reduce(
-        (acc: any, item: { price: any }) => acc + item.price,
+        (acc: number, item: { price: number }) => acc + item.price,
         0
       ) + bunPrice
     );

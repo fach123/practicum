@@ -8,8 +8,8 @@ interface IFiltered {
   filtered: Array<IItem>;
 }
 
-const ShowBurgerIngredient = React.memo(
-  ({ filtered }: IFiltered): JSX.Element => {
+const ShowBurgerIngredient = React.memo<IFiltered>(
+  ({ filtered }): JSX.Element => {
     return (
       <>
         {filtered.map((item: IItem) => (
