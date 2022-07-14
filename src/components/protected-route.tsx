@@ -1,20 +1,16 @@
+import { ReactNode } from "react";
 import { Redirect, Route } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-export function ProtectedRoute({ children, ...rest }) {
-  const { user } = useSelector((store) => store.api);
-  const [isUserLoaded, setUserLoaded] = useState(false);
+interface IProtected {
+  path: string;
+  children: ReactNode;
+  exact?: boolean;
+}
 
-  const init = async () => {
-    /*await getUser().then(res => {
-            setUserLoaded(true);
-        })*/
-  };
+export function ProtectedRoute({ children, ...rest }: IProtected) {
+  const { user } = useSelector((store: any) => store.api);
 
-  useEffect(() => {
-    init();
-  }, []);
   return (
     <Route
       {...rest}

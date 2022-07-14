@@ -7,18 +7,18 @@ import { getIngredients } from "../../services/actions/api";
 import { ShowItem } from "./show-item-ingredient";
 import Preloader from "../preloader/preloader";
 
-const BurgerIngredients = () => {
+const BurgerIngredients = (): JSX.Element => {
   const [current, setCurrent] = useState("bul");
   const currentTabRef = useRef("");
   currentTabRef.current = current;
-  const scrollBlock = useRef(null);
-  const scrollLabel_bul = useRef(null);
-  const scrollLabel_sauce = useRef(null);
-  const scrollLabel_fillings = useRef(null);
+  const scrollBlock = useRef<HTMLDivElement>(null);
+  const scrollLabel_bul = useRef<HTMLDivElement>(null);
+  const scrollLabel_sauce = useRef<HTMLDivElement>(null);
+  const scrollLabel_fillings = useRef(null); //no use
   const scrollTabs = useRef(null);
-  const { items } = useSelector((store) => store.api);
+  const { items } = useSelector((store: any) => store.api);
 
-  const setCurrentById = useCallback((name) => {
+  const setCurrentById = useCallback((name: string) => {
     if (currentTabRef.current !== name) {
       setCurrent(name);
       console.log(`changed from ${currentTabRef.current} to ${name}`);
@@ -26,32 +26,38 @@ const BurgerIngredients = () => {
   }, []);
 
   const onScroll = useCallback(() => {
-    const rectBul = scrollLabel_bul.current.getBoundingClientRect();
-    const rectSauce = scrollLabel_sauce.current.getBoundingClientRect();
-    //let rectFillings = scrollLabel_fillings.current.getBoundingClientRect();
-    if (rectBul.y < 150 && rectSauce.y > 150) {
-      setCurrentById("sauce");
-    } else if (rectSauce.y < 150) {
-      setCurrentById("fillings");
-    } else {
-      setCurrentById("bul");
+    if (scrollLabel_bul.current && scrollLabel_sauce.current) {
+      const rectBul = scrollLabel_bul.current.getBoundingClientRect();
+      const rectSauce = scrollLabel_sauce.current.getBoundingClientRect();
+      //let rectFillings = scrollLabel_fillings.current.getBoundingClientRect();
+      if (rectBul.y < 150 && rectSauce.y > 150) {
+        setCurrentById("sauce");
+      } else if (rectSauce.y < 150) {
+        setCurrentById("fillings");
+      } else {
+        setCurrentById("bul");
+      }
     }
   }, [setCurrentById]);
 
   useEffect(() => {
     const block = scrollBlock.current;
-    block.addEventListener("scroll", onScroll);
-    return () => {
-      block.removeEventListener("scroll", onScroll);
-    };
+    if (block) {
+      block.addEventListener("scroll", onScroll);
+      return () => {
+        block.removeEventListener("scroll", onScroll);
+      };
+    }
   }, [onScroll]);
-  const scrollTo = (block) => {
-    block.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+  const scrollTo = (block: HTMLDivElement | null) => {
+    if (block) {
+      block.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
   };
-  const goToLabel = (e) => {
+  const goToLabel = (e: React.SetStateAction<string>) => {
     switch (e) {
       case "bul":
         setCurrent(e);
@@ -102,11 +108,6 @@ const BurgerIngredients = () => {
       </div>
     </div>
   );
-};
-
-BurgerIngredients.propTypes = {
-  setOpenModal: PropTypes.func,
-  openModal: PropTypes.object,
 };
 
 export default BurgerIngredients;

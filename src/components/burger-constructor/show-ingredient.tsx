@@ -9,13 +9,13 @@ import {
   DELETE_ITEM,
   SORT_INGREDIENT,
 } from "../../services/actions/constructor";
-import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
+import { IItem } from "../types";
 
-export const ShowIngredient = (item) => {
-  const { ingredients } = useSelector((store) => store.burgerConstructor);
-  const ref = useRef(null);
-  const dragIndex = ingredients.findIndex((itemObject) => {
+export const ShowIngredient = (item: IItem): JSX.Element => {
+  const { ingredients } = useSelector((store: any) => store.burgerConstructor);
+  const ref = useRef<HTMLDivElement>(null);
+  const dragIndex = ingredients.findIndex((itemObject: IItem) => {
     return itemObject.constructorId === item.constructorId;
   });
   const dispatch = useDispatch();
@@ -23,8 +23,8 @@ export const ShowIngredient = (item) => {
   const [, drop] = useDrop(() => ({
     accept: ["SORT_INGREDIENT"],
 
-    drop(draggedItem) {
-      if (draggedItem.type !== "bun") {
+    drop(draggedItem: { item: IItem }) {
+      if (draggedItem.item.type !== "bun") {
         dispatch(
           SORT_INGREDIENT({
             from: draggedItem.item.constructorId,
@@ -63,7 +63,4 @@ export const ShowIngredient = (item) => {
       />
     </div>
   );
-};
-ShowIngredient.propTypes = {
-  item: PropTypes.object,
 };

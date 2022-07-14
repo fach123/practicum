@@ -17,20 +17,25 @@ import Modal from "../modal/modal";
 import { ProtectedRoute } from "../protected-route";
 import { getIngredients } from "../../services/actions/api";
 import { useDispatch } from "react-redux";
+import { Location } from "history";
 
-function App() {
+interface stateType {
+  background: Location;
+}
+
+function App(): JSX.Element {
   const history = useHistory();
-  const location = useLocation();
+  const location = useLocation<stateType>();
   const background = location.state && location.state.background;
   const dispatch = useDispatch();
 
-  const setOpenModal = (value) => {
-    if (value === false) {
+  const setOpenModal = (value: boolean) => {
+    if (!value) {
       history.goBack();
     }
   };
   useEffect(() => {
-    dispatch(getIngredients());
+    dispatch(getIngredients() as any);
   }, [dispatch]);
   return (
     <>
@@ -39,7 +44,7 @@ function App() {
         <Route path="/" exact={true}>
           <HomePage />
         </Route>
-        <Route path="/login" isAuth={true}>
+        <Route path="/login" /*isAuth={true}*/>
           <LoginPage />
         </Route>
         <Route path="/register" exact={true}>

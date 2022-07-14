@@ -7,7 +7,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink } from "react-router-dom";
 
-const AppHeader = () => {
+const AppHeader = (): JSX.Element => {
   return (
     <header className={style.header}>
       <nav className={`${style.menu} pt-4 pb-4`}>

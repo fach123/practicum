@@ -1,23 +1,23 @@
-import style from "./register.module.css";
+import { ChangeEvent, FormEvent, useState } from "react";
+import style from "./reset-password.module.css";
 import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect } from "react-router-dom";
-import { useState } from "react";
-import { goRegister } from "../../services/actions/api";
+import { goResetPassword } from "../../services/actions/api";
 import { useDispatch, useSelector } from "react-redux";
 
-export const RegisterBlock = () => {
-  const { user } = useSelector((store) => store.api);
+export const ResetBlock = () => {
+  const { resetSuccess, forgotEmail, user } = useSelector(
+    (store: any) => store.api
+  );
   const dispatch = useDispatch();
   const [state, setState] = useState({
-    email: "",
-    name: "",
+    token: "",
     password: "",
   });
-
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -27,10 +27,10 @@ export const RegisterBlock = () => {
       [name]: value,
     });
   };
-
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(goRegister(state));
+    // @ts-ignore
+    dispatch(goResetPassword(state));
   };
   if (user.success) {
     return (
@@ -41,39 +41,33 @@ export const RegisterBlock = () => {
       />
     );
   }
+  if (resetSuccess) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/login",
+        }}
+      />
+    );
+  }
+  if (forgotEmail === "") {
+    return (
+      <Redirect
+        to={{
+          pathname: "/forgot-password",
+        }}
+      />
+    );
+  }
   return (
     <div className={style.inner}>
-      <p className="text text_type_main-medium mb-6">Регистрация</p>
+      <p className="text text_type_main-medium mb-6">Восстановление пароля</p>
       <form className={style.form} onSubmit={handleSubmit}>
         <div className={style.inputs}>
           <div className="mb-6">
             <Input
-              type={"email"}
-              placeholder={"E-mail"}
-              name={"email"}
-              value={state.email}
-              error={false}
-              errorText={"Ошибка"}
-              size={"default"}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-6">
-            <Input
-              type={"text"}
-              placeholder={"Имя"}
-              name={"name"}
-              value={state.name}
-              error={false}
-              errorText={"Ошибка"}
-              size={"default"}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-6">
-            <Input
               type={"password"}
-              placeholder={"Пароль"}
+              placeholder={"Введите новый пароль"}
               name={"password"}
               value={state.password}
               error={false}
@@ -83,16 +77,28 @@ export const RegisterBlock = () => {
               icon={"ShowIcon"}
             />
           </div>
+          <div className="mb-6">
+            <Input
+              type={"text"}
+              placeholder={"Введите код из письма"}
+              name={"token"}
+              value={state.token}
+              error={false}
+              errorText={"Ошибка"}
+              size={"default"}
+              onChange={handleInputChange}
+            />
+          </div>
         </div>
         <div className="mb-20">
           <Button type="primary" size="medium">
-            Зарегистрироваться
+            Сохранить
           </Button>
         </div>
       </form>
       <div>
         <p className="text text_type_main-default">
-          Уже зарегистрированы?
+          Вспомнили пароль?
           <Link className={style.link} to="/login">
             Войти
           </Link>

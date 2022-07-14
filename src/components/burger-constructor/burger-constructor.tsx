@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-import PropTypes from "prop-types";
 import {
   Button,
   CurrencyIcon,
@@ -16,16 +15,21 @@ import {
 import { ShowBuls } from "./show-buls";
 import { ShowIngredient } from "./show-ingredient";
 import { Redirect, useHistory } from "react-router-dom";
+import { IItem } from "../types";
 
-const BurgerConstructor = () => {
-  const { user } = useSelector((store) => store.api);
+const BurgerConstructor = (): JSX.Element => {
+  const { user } = useSelector((store: any) => store.api);
   const history = useHistory();
-  const [openModal, setOpenModal] = useState(false);
-  const { bun, ingredients } = useSelector((store) => store.burgerConstructor);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
+  const { bun, ingredients } = useSelector(
+    (store: any) => store.burgerConstructor
+  );
   const dispatch = useDispatch();
+
   const [, drop] = useDrop(() => ({
     accept: ["SORT_INGREDIENT", "NEW_INGREDIENT"],
-    drop: (item, monitor) => {
+    drop: (item: IItem, monitor) => {
       const itemType = monitor.getItemType();
       if (itemType === "NEW_INGREDIENT") {
         if (item.type === "bun") {
@@ -48,12 +52,17 @@ const BurgerConstructor = () => {
       history.replace({ pathname: "/login" });
     }
   };
-  const totalPrice = useMemo(() => {
+  const totalPrice = useMemo((): number => {
     let bunPrice = 0;
     if (bun) {
       bunPrice = bun.price * 2;
     }
-    return ingredients.reduce((acc, item) => acc + item.price, 0) + bunPrice;
+    return (
+      ingredients.reduce(
+        (acc: any, item: { price: any }) => acc + item.price,
+        0
+      ) + bunPrice
+    );
   }, [bun, ingredients]);
 
   return (
@@ -65,7 +74,7 @@ const BurgerConstructor = () => {
 
         <div className={`${style.inner_child} custom-scroll pr-2`}>
           {ingredients.length > 0 ? (
-            ingredients.map((item, i) => (
+            ingredients.map((item: IItem) => (
               <ShowIngredient {...item} key={item.constructorId} />
             ))
           ) : (
@@ -103,8 +112,4 @@ const BurgerConstructor = () => {
   );
 };
 
-BurgerConstructor.propTypes = {
-  setOpenModal: PropTypes.func,
-  openModal: PropTypes.object,
-};
 export default BurgerConstructor;

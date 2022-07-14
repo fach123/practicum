@@ -1,13 +1,18 @@
-import { useEffect, useState } from "react";
+import {
+  MouseEvent,
+  ChangeEvent,
+  FC,
+  FormEvent,
+  useEffect,
+  useState,
+} from "react";
 import style from "./profile.module.css";
 import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
-  Link,
   NavLink,
-  Redirect,
   Route,
   Switch,
   useRouteMatch,
@@ -17,11 +22,29 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getUser,
   goChangeUser,
-  goLogin,
   goLogout,
 } from "../../services/actions/api";
 
-const MenuElement = ({ title, to }) => {
+interface IMenu {
+  title: string;
+  to: string;
+}
+
+interface IUserState {
+  email: string;
+  name: string;
+  password: string;
+}
+
+interface IProfileForm {
+  handleBackProfileData: any
+  handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  handleInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  state: IUserState;
+  user: any;
+}
+
+const MenuElement: FC<IMenu> = ({ title, to }): JSX.Element => {
   return (
     <li className={style.menu_element}>
       <NavLink to={to} activeClassName={style.link_active}>
@@ -32,13 +55,14 @@ const MenuElement = ({ title, to }) => {
     </li>
   );
 };
+
 const ProfileForm = ({
   handleBackProfileData,
   handleSubmit,
   handleInputChange,
   state,
   user,
-}) => {
+}: IProfileForm): JSX.Element => {
   return (
     <form className={style.form} onSubmit={handleSubmit}>
       <div className={style.inputs}>
@@ -97,21 +121,22 @@ const ProfileForm = ({
     </form>
   );
 };
-export const ProfileBlock = () => {
-  const { user } = useSelector((store) => store.api);
+export const ProfileBlock = (): JSX.Element => {
+  const { user } = useSelector((store: any) => store.api);
   const { path, url } = useRouteMatch();
   const dispatch = useDispatch();
-  const [state, setState] = useState({
+  const [state, setState] = useState<IUserState>({
     email: user.user.email,
     name: user.user.name,
     password: "",
   });
   useEffect(() => {
     if (user.success) {
-      dispatch(getUser(user));
+      // @ts-ignore
+      dispatch(getUser(user) as any);
     }
   }, []);
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -121,7 +146,7 @@ export const ProfileBlock = () => {
       [name]: value,
     });
   };
-  const handleBackProfileData = (event) => {
+  const handleBackProfileData = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setState({
       email: user.user.email,
@@ -129,16 +154,18 @@ export const ProfileBlock = () => {
       password: "",
     });
   };
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (user.success) {
       //let userData = state;
       //userData.password === '' ? delete userData.password : userData.password;
+      // @ts-ignore
       dispatch(goChangeUser({ ...user, user: { ...state } }));
     }
   };
 
   const handleLogout = () => {
+    // @ts-ignore
     dispatch(goLogout({ token: user.refreshToken }));
   };
 

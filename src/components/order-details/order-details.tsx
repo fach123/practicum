@@ -4,24 +4,32 @@ import okLogo from "../../images/graphics.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { sendOrder } from "../../services/actions/api";
 import Preloader from "../preloader/preloader";
+import { IItem } from "../types";
 
-const OrderDetails = () => {
-  const { bun, ingredients } = useSelector((store) => store.burgerConstructor);
+interface ISendOrder {
+  ingredients: number[];
+}
+
+const OrderDetails = (): JSX.Element => {
+  const { bun, ingredients } = useSelector(
+    (store: any) => store.burgerConstructor
+  );
   const { orderItems, orderItemsRequest, orderItemsFailed } = useSelector(
-    (store) => store.api
+    (store: any) => store.api
   );
   const dispatch = useDispatch();
-  const validateItems = () => {
+  const validateItems = (): boolean => {
     return bun === null && ingredients.length === 0;
   };
   useEffect(() => {
     if (!validateItems()) {
-      let allIds = ingredients.map((item) => item._id);
+      let allIds = ingredients.map((item: IItem) => item._id);
       allIds.push(bun._id);
-      dispatch(sendOrder({ ingredients: allIds }));
+      // @ts-ignore
+      dispatch(sendOrder({ ingredients: allIds }) as any);
     }
   }, [dispatch, bun, ingredients]);
-  const ShowEmpty = () => {
+  const ShowEmpty = (): JSX.Element => {
     return (
       <div className={`${style.modal_main} mb-4`}>
         <p className="text text_type_main-medium mb-15">
@@ -30,14 +38,14 @@ const OrderDetails = () => {
       </div>
     );
   };
-  const ShowError = () => {
+  const ShowError = (): JSX.Element => {
     return (
       <div className={`${style.modal_main} mb-4`}>
         <p className="text text_type_main-medium mb-15">Произошла ошибка :(</p>
       </div>
     );
   };
-  const ShowSuccessWindow = () => {
+  const ShowSuccessWindow = (): JSX.Element => {
     return (
       <div className={`${style.modal_main} mb-4`}>
         <p className={`${style.order_number} text text_type_digits-large mb-8`}>
@@ -54,7 +62,7 @@ const OrderDetails = () => {
       </div>
     );
   };
-  const GetOrderBlock = () => {
+  const GetOrderBlock = (): JSX.Element => {
     if (validateItems()) {
       return <ShowEmpty />;
     } else {

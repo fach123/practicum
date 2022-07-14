@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import style from "./forgot-password.module.css";
 import {
   Button,
@@ -8,20 +8,21 @@ import { Link, Redirect } from "react-router-dom";
 import { goForgotPassword } from "../../services/actions/api";
 import { useDispatch, useSelector } from "react-redux";
 
-export const ForgotBlock = () => {
-  const { forgotEmail, user } = useSelector((store) => store.api);
+export const ForgotBlock = (): JSX.Element => {
+  const { forgotEmail, user } = useSelector((store: any) => store.api);
   const dispatch = useDispatch();
-  const [state, setState] = useState();
+  const [state, setState] = useState("");
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
     const value = target.value;
 
     setState(value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // @ts-ignore
     dispatch(goForgotPassword({ email: state }));
   };
 

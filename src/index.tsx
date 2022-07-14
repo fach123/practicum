@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-// @ts-ignore
+
 import { BrowserRouter as Router } from "react-router-dom";
 import { rootReducer } from "./services/reducers";
 import { configureStore } from "@reduxjs/toolkit";

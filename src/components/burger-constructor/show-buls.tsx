@@ -1,8 +1,12 @@
 import React from "react";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
+import { IItem } from "../types";
 
-export const ShowBuls = ({ bun, type }) => {
+type TshowBuls = {
+  type: "top" | "bottom";
+  bun: IItem;
+};
+export const ShowBuls = ({ bun, type }: Required<TshowBuls>): JSX.Element => {
   return (
     <>
       {bun ? (
@@ -25,8 +29,4 @@ export const ShowBuls = ({ bun, type }) => {
       )}
     </>
   );
-};
-ShowBuls.propTypes = {
-  type: PropTypes.string.isRequired,
-  bun: PropTypes.object,
 };

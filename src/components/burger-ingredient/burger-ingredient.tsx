@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {
   Counter,
   CurrencyIcon,
@@ -8,9 +7,11 @@ import style from "./burger-ingredient.module.css";
 import { useDrag } from "react-dnd";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import { IItem } from "../types";
+import { Location } from "history";
 
-const BurgerIngredient = (props) => {
-  const { ingredients } = useSelector((store) => store.burgerConstructor);
+const BurgerIngredient = (props: IItem): JSX.Element => {
+  const { ingredients } = useSelector((store: any) => store.burgerConstructor);
   const { image, name, price, _id } = props;
   const item = props;
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -23,13 +24,13 @@ const BurgerIngredient = (props) => {
     }),
   }));
   const opacity = isDragging ? 0.4 : 1;
-  const GetCount = () => {
-    const counter = ingredients.filter((item) => {
+  const GetCount = (): JSX.Element | null => {
+    const counter = ingredients.filter((item: IItem) => {
       return item._id === _id;
     }).length;
-    return counter > 0 ? <Counter count={counter} size="default" /> : "";
+    return counter > 0 ? <Counter count={counter} size="default" /> : null;
   };
-  let location = useLocation();
+  let location = useLocation<{ background: Location }>();
   return (
     <>
       <Link
@@ -59,13 +60,6 @@ const BurgerIngredient = (props) => {
       </Link>
     </>
   );
-};
-
-BurgerIngredient.propTypes = {
-  _id: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
 };
 
 export default BurgerIngredient;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { ReactElement, useEffect } from "react";
 import * as ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -6,20 +6,30 @@ import style from "./modal.module.css";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import { useDispatch } from "react-redux";
 import { DELETE_INFO, SET_INFO } from "../../services/actions/modal-details";
-const modalRoot = document.getElementById("react-modals");
+const modalRoot = document.getElementById("react-modals") as HTMLElement;
 
-const ModalBlock = (props) => {
+interface IKeyboardEvent {
+  key: string;
+}
+
+interface IModal {
+  setOpenModal: (arg0: boolean) => void;
+  children: React.ReactNode;
+  title: string;
+}
+const ModalBlock: React.FC<IModal> = (props): JSX.Element => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     document.addEventListener("keydown", onKeydown);
-    dispatch(SET_INFO(props.children.props));
+    // @ts-ignore
+    dispatch(SET_INFO(props.children.props) as any);
     return () => {
       document.removeEventListener("keydown", onKeydown);
       dispatch(DELETE_INFO());
     };
   });
-  const onKeydown = ({ key }) => {
+  const onKeydown = ({ key }: IKeyboardEvent) => {
     if (key === "Escape") {
       closeModal();
     }
@@ -49,13 +59,7 @@ const ModalBlock = (props) => {
   );
 };
 
-const Modal = (props) =>
+const Modal = (props: IModal): JSX.Element =>
   ReactDOM.createPortal(<ModalBlock {...props} />, modalRoot);
-
-Modal.propTypes = {
-  title: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  setOpenModal: PropTypes.func,
-};
 
 export default Modal;

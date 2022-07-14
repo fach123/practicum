@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import style from "./login.module.css";
 import {
   Button,
@@ -9,9 +9,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { goLogin } from "../../services/actions/api";
 
-export const LoginBlock = () => {
-  const { user } = useSelector((store) => store.api);
-  const history = useHistory();
+interface stateType {
+  from: { pathname: string };
+}
+
+export const LoginBlock = (): JSX.Element => {
+  const { user } = useSelector((store: any) => store.api);
+  const history = useHistory<stateType>();
   const dispatch = useDispatch();
   const [stateForm, setStateForm] = useState({
     email: "",
@@ -19,7 +23,7 @@ export const LoginBlock = () => {
     password: "",
   });
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -30,8 +34,9 @@ export const LoginBlock = () => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
+    // @ts-ignore
     dispatch(goLogin(stateForm));
   };
   if (user.success) {
