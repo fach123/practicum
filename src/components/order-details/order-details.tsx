@@ -6,10 +6,10 @@ import { sendOrder } from "../../services/actions/api";
 import Preloader from "../preloader/preloader";
 import { IItem } from "../types";
 
-interface ISendOrder {
+/*interface ISendOrder {
   ingredients: number[];
 }
-
+*/
 const OrderDetails = (): JSX.Element => {
   const { bun, ingredients } = useSelector(
     (store: any) => store.burgerConstructor
@@ -19,10 +19,10 @@ const OrderDetails = (): JSX.Element => {
   );
   const dispatch = useDispatch();
   const validateItems = (): boolean => {
-    return bun === null && ingredients.length === 0;
+    return ingredients.length > 0 && bun !== null && bun !== "null";
   };
   useEffect(() => {
-    if (!validateItems()) {
+    if (validateItems()) {
       let allIds = ingredients.map((item: IItem) => item._id);
       allIds.push(bun._id);
       // @ts-ignore
@@ -63,7 +63,7 @@ const OrderDetails = (): JSX.Element => {
     );
   };
   const GetOrderBlock = (): JSX.Element => {
-    if (validateItems()) {
+    if (!validateItems()) {
       return <ShowEmpty />;
     } else {
       if (orderItemsFailed) {

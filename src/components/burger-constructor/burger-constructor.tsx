@@ -14,7 +14,7 @@ import {
 } from "../../services/actions/constructor";
 import { ShowBuls } from "./show-buls";
 import { ShowIngredient } from "./show-ingredient";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { IItem } from "../types";
 
 const BurgerConstructor = (): JSX.Element => {

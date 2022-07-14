@@ -1,4 +1,4 @@
-import React, { FC, NamedExoticComponent, PropsWithChildren } from "react";
+import React from "react";
 import style from "./burger-ingredients.module.css";
 import { useSelector } from "react-redux";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";

@@ -1,14 +1,8 @@
-import { ReactNode } from "react";
-import { Redirect, Route } from "react-router-dom";
+import { FC } from "react";
+import { Redirect, Route, RouteProps } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-interface IProtected {
-  path: string;
-  children: ReactNode;
-  exact?: boolean;
-}
-
-export function ProtectedRoute({ children, ...rest }: IProtected) {
+export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
   const { user } = useSelector((store: any) => store.api);
 
   return (
@@ -16,7 +10,7 @@ export function ProtectedRoute({ children, ...rest }: IProtected) {
       {...rest}
       render={({ location }) =>
         user.accessToken ? (
-          children
+          <>children</>
         ) : (
           <Redirect
             to={{
@@ -28,4 +22,4 @@ export function ProtectedRoute({ children, ...rest }: IProtected) {
       }
     />
   );
-}
+};

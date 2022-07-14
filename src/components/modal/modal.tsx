@@ -1,16 +1,11 @@
-import React, { ReactElement, useEffect } from "react";
+import React, { useEffect } from "react";
 import * as ReactDOM from "react-dom";
-import PropTypes from "prop-types";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./modal.module.css";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import { useDispatch } from "react-redux";
 import { DELETE_INFO, SET_INFO } from "../../services/actions/modal-details";
 const modalRoot = document.getElementById("react-modals") as HTMLElement;
-
-interface IKeyboardEvent {
-  key: string;
-}
 
 interface IModal {
   setOpenModal: (arg0: boolean) => void;
@@ -29,7 +24,7 @@ const ModalBlock: React.FC<IModal> = (props): JSX.Element => {
       dispatch(DELETE_INFO());
     };
   });
-  const onKeydown = ({ key }: IKeyboardEvent) => {
+  const onKeydown = ({ key }: KeyboardEvent) => {
     if (key === "Escape") {
       closeModal();
     }

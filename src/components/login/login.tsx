@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import style from "./login.module.css";
 import {
   Button,
@@ -34,7 +34,7 @@ export const LoginBlock = (): JSX.Element => {
     });
   };
 
-  const handleSubmit = (event: { preventDefault: () => void }) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // @ts-ignore
     dispatch(goLogin(stateForm));

@@ -11,19 +11,10 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import {
-  NavLink,
-  Route,
-  Switch,
-  useRouteMatch,
-} from "react-router-dom";
+import { NavLink, Route, Switch, useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  getUser,
-  goChangeUser,
-  goLogout,
-} from "../../services/actions/api";
+import { getUser, goChangeUser, goLogout } from "../../services/actions/api";
 
 interface IMenu {
   title: string;
@@ -37,7 +28,7 @@ interface IUserState {
 }
 
 interface IProfileForm {
-  handleBackProfileData: any
+  handleBackProfileData: any;
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
   handleInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
   state: IUserState;
