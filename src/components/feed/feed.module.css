@@ -1,0 +1,37 @@
+.feed {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-self: right;
+}
+
+.list {
+  overflow-y: scroll;
+  height: 90vh;
+}
+
+.ready {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  text-align: center;
+}
+
+.list_info {
+  margin: 10px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  list-style: none;
+  max-height: 640px;
+}
+.inner {
+  width: 1245px;
+  margin: 0 auto;
+  display: flex;
+}
+.linkOrder {
+  text-decoration: none;
+  color: var(--text-primary-color);
+}

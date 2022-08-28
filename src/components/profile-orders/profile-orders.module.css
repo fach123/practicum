@@ -1,0 +1,8 @@
+.list {
+    overflow-y: scroll;
+}
+
+.linkOrder {
+    text-decoration: none;
+    color: var(--text-primary-color);
+}

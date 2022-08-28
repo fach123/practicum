@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-ingredients.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getIngredients } from "../../services/actions/api";
 import { ShowItem } from "./show-item-ingredient";
 import Preloader from "../preloader/preloader";
 

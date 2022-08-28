@@ -1,10 +1,12 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import { apiReducer } from "./api";
 import { constructReducer } from "./constructor";
-import { modalReducer } from "./modal-details";
+import { socketReducer } from "./socket";
+import { socketProfileReducer } from "./socket-profile";
 
 export const rootReducer = combineReducers({
   api: apiReducer,
   burgerConstructor: constructReducer,
-  modal: modalReducer,
+  socket: socketReducer,
+  socketProfile: socketProfileReducer,
 });

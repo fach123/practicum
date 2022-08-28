@@ -10,7 +10,7 @@ export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
       {...rest}
       render={({ location }) =>
         user.accessToken ? (
-          <>children</>
+          <>{children}</>
         ) : (
           <Redirect
             to={{

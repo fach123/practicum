@@ -7,10 +7,11 @@ import {
 import { Link, Redirect } from "react-router-dom";
 import { goForgotPassword } from "../../services/actions/api";
 import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch } from "../types";
 
 export const ForgotBlock = (): JSX.Element => {
   const { forgotEmail, user } = useSelector((store: any) => store.api);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [state, setState] = useState("");
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -22,7 +23,7 @@ export const ForgotBlock = (): JSX.Element => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // @ts-ignore
+
     dispatch(goForgotPassword({ email: state }));
   };
 

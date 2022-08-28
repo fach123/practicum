@@ -6,9 +6,17 @@ import {
   SET_DRAGGED,
   SORT_INGREDIENT,
 } from "../actions/constructor";
-import { v4 as uuidv4 } from "uuid";
 
-const initialState = {
+import { v4 as uuidv4 } from "uuid";
+import { IItem } from "../../components/types";
+
+interface IConstructor {
+  ingredients: Array<IItem>;
+  bun: IItem | null;
+  draggedIngredient: any;
+}
+
+const initialState: IConstructor = {
   ingredients: [],
   bun: null,
   draggedIngredient: null,

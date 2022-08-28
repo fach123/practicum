@@ -8,6 +8,7 @@ import { Link, Redirect, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { goLogin } from "../../services/actions/api";
+import { useAppDispatch } from "../types";
 
 interface stateType {
   from: { pathname: string };
@@ -16,7 +17,7 @@ interface stateType {
 export const LoginBlock = (): JSX.Element => {
   const { user } = useSelector((store: any) => store.api);
   const history = useHistory<stateType>();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [stateForm, setStateForm] = useState({
     email: "",
     name: "",
@@ -36,7 +37,7 @@ export const LoginBlock = (): JSX.Element => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // @ts-ignore
+
     dispatch(goLogin(stateForm));
   };
   if (user.success) {

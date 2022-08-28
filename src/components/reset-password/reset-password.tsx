@@ -7,12 +7,13 @@ import {
 import { Link, Redirect } from "react-router-dom";
 import { goResetPassword } from "../../services/actions/api";
 import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch } from "../types";
 
 export const ResetBlock = () => {
   const { resetSuccess, forgotEmail, user } = useSelector(
     (store: any) => store.api
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [state, setState] = useState({
     token: "",
     password: "",
@@ -29,7 +30,7 @@ export const ResetBlock = () => {
   };
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // @ts-ignore
+
     dispatch(goResetPassword(state));
   };
   if (user.success) {

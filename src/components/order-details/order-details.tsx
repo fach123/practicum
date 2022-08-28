@@ -4,7 +4,7 @@ import okLogo from "../../images/graphics.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { sendOrder } from "../../services/actions/api";
 import Preloader from "../preloader/preloader";
-import { IItem } from "../types";
+import { IItem, useAppDispatch } from "../types";
 
 /*interface ISendOrder {
   ingredients: number[];
@@ -17,7 +17,7 @@ const OrderDetails = (): JSX.Element => {
   const { orderItems, orderItemsRequest, orderItemsFailed } = useSelector(
     (store: any) => store.api
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const validateItems = (): boolean => {
     return ingredients.length > 0 && bun !== null && bun !== "null";
   };
@@ -25,8 +25,8 @@ const OrderDetails = (): JSX.Element => {
     if (validateItems()) {
       let allIds = ingredients.map((item: IItem) => item._id);
       allIds.push(bun._id);
-      // @ts-ignore
-      dispatch(sendOrder({ ingredients: allIds }) as any);
+
+      dispatch(sendOrder({ ingredients: allIds }));
     }
   }, [dispatch, bun, ingredients]);
   const ShowEmpty = (): JSX.Element => {

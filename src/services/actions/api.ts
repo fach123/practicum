@@ -1,19 +1,32 @@
-import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk, Dispatch } from "@reduxjs/toolkit";
+import { IUpdateUser } from "../reducers/api";
 
-const apiUrl = "https://norma.nomoreparties.space/api/";
+export interface IUser {
+  email: string;
+  name: string;
+}
 
-export const UPDATE_USER = createAction("api/update_user");
+const apiUrl: string = "https://norma.nomoreparties.space/api/";
 
-const updateUser = (user, dispatch) => {
-  const userOriginal = JSON.parse(localStorage.getItem("user"));
-  if (userOriginal) {
-    userOriginal.accessToken = user.accessToken;
-    userOriginal.refreshToken = user.refreshToken;
-    localStorage.setItem("user", JSON.stringify(userOriginal));
-    dispatch(UPDATE_USER(userOriginal));
+export const UPDATE_USER = createAction<IUpdateUser>("api/update_user");
+
+const updateUser = (
+  user: { accessToken: string; refreshToken: string },
+  dispatch: Dispatch
+) => {
+  let userStorage = localStorage.getItem("user");
+  if (userStorage) {
+    const userOriginal = JSON.parse(userStorage);
+    if (userOriginal) {
+      userOriginal.accessToken = user.accessToken;
+      userOriginal.refreshToken = user.refreshToken;
+      localStorage.setItem("user", JSON.stringify(userOriginal));
+
+      dispatch(UPDATE_USER(userOriginal));
+    }
   }
 };
-const checkReponse = (response) => {
+const checkReponse = (response: Response) => {
   //return Promise.reject({success:false,message:'jwt expired'})
   console.log(response);
   if (response.ok) {
@@ -42,7 +55,7 @@ const checkReponse = (response) => {
       });
   }
 };
-const refreshToken = (token) => {
+const refreshToken = (token: string) => {
   return fetch(`${apiUrl}auth/token`, {
     method: "POST",
     headers: {
@@ -67,28 +80,27 @@ export const getIngredients = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       return await fetch(apiUrl + "ingredients")
-        .then((response) => {
-          return checkReponse(response)
-            .then((data) => {
-              return data.data;
-            })
-            .catch((error) => {
-              console.log(error);
-              return rejectWithValue([], error);
-            });
+        .then(async (response) => {
+          try {
+            const data = await checkReponse(response);
+            return data.data;
+          } catch (error) {
+            console.log(error);
+            return rejectWithValue(error);
+          }
         })
         .catch((error) => {
           console.log(error);
-          return rejectWithValue([], error);
+          return rejectWithValue(error);
         });
     } catch (err) {
-      return rejectWithValue([], err);
+      return rejectWithValue(err);
     }
   }
 );
 export const sendOrder = createAsyncThunk(
   "main/fetchOrder",
-  async (data, { rejectWithValue }) => {
+  async (data: { ingredients: Array<string> }, { rejectWithValue }) => {
     try {
       return await fetch(apiUrl + "orders", {
         method: "POST",
@@ -97,29 +109,30 @@ export const sendOrder = createAsyncThunk(
         },
         body: JSON.stringify(data),
       })
-        .then((response) => {
-          return checkReponse(response)
-            .then((data) => {
-              return data;
-            })
-            .catch((error) => {
-              console.log(error);
-              return rejectWithValue([], error);
-            });
+        .then(async (response) => {
+          try {
+            return await checkReponse(response);
+          } catch (error) {
+            console.log(error);
+            return rejectWithValue(error);
+          }
         })
         .catch((error) => {
           console.log(error);
-          return rejectWithValue([], error);
+          return rejectWithValue(error);
         });
     } catch (err) {
-      return rejectWithValue([], err);
+      return rejectWithValue(err);
     }
   }
 );
 //auth
 export const goRegister = createAsyncThunk(
   "main/fetchRegister",
-  async (data, { rejectWithValue }) => {
+  async (
+    data: { email: string; name: string; password: string },
+    { rejectWithValue }
+  ) => {
     try {
       return await fetch(apiUrl + "auth/register", {
         method: "POST",
@@ -128,28 +141,29 @@ export const goRegister = createAsyncThunk(
         },
         body: JSON.stringify(data),
       })
-        .then((response) => {
-          return checkReponse(response)
-            .then((data) => {
-              return data;
-            })
-            .catch((error) => {
-              console.log(error);
-              return rejectWithValue([], error);
-            });
+        .then(async (response) => {
+          try {
+            return await checkReponse(response);
+          } catch (error) {
+            console.log(error);
+            return rejectWithValue(error);
+          }
         })
         .catch((error) => {
           console.log(error);
-          return rejectWithValue([], error);
+          return rejectWithValue(error);
         });
     } catch (err) {
-      return rejectWithValue([], err);
+      return rejectWithValue(err);
     }
   }
 );
 export const goLogin = createAsyncThunk(
   "main/fetchLogin",
-  async (data, { rejectWithValue }) => {
+  async (
+    data: { email: string; name: string; password: string },
+    { rejectWithValue }
+  ) => {
     try {
       return await fetch(apiUrl + "auth/login", {
         method: "POST",
@@ -158,28 +172,26 @@ export const goLogin = createAsyncThunk(
         },
         body: JSON.stringify(data),
       })
-        .then((response) => {
-          return checkReponse(response)
-            .then((data) => {
-              return data;
-            })
-            .catch((error) => {
-              console.log(error);
-              return rejectWithValue([], error);
-            });
+        .then(async (response) => {
+          try {
+            return await checkReponse(response);
+          } catch (error) {
+            console.log(error);
+            return rejectWithValue(error);
+          }
         })
         .catch((error) => {
           console.log(error);
-          return rejectWithValue([], error);
+          return rejectWithValue(error);
         });
     } catch (err) {
-      return rejectWithValue([], err);
+      return rejectWithValue(err);
     }
   }
 );
 export const goLogout = createAsyncThunk(
   "main/fetchLogout",
-  async (data, { rejectWithValue }) => {
+  async (data: { token: string }, { rejectWithValue }) => {
     try {
       return await fetch(apiUrl + "auth/logout", {
         method: "POST",
@@ -188,28 +200,26 @@ export const goLogout = createAsyncThunk(
         },
         body: JSON.stringify(data),
       })
-        .then((response) => {
-          return checkReponse(response)
-            .then((data) => {
-              return data;
-            })
-            .catch((error) => {
-              console.log(error);
-              return rejectWithValue([], error);
-            });
+        .then(async (response) => {
+          try {
+            return await checkReponse(response);
+          } catch (error) {
+            console.log(error);
+            return rejectWithValue(error);
+          }
         })
         .catch((error) => {
           console.log(error);
-          return rejectWithValue([], error);
+          return rejectWithValue(error);
         });
     } catch (err) {
-      return rejectWithValue([], err);
+      return rejectWithValue(err);
     }
   }
 );
 export const goForgotPassword = createAsyncThunk(
   "main/fetchForgotPassword",
-  async (email, { rejectWithValue }) => {
+  async (email: { email: string }, { rejectWithValue }) => {
     try {
       return await fetch(apiUrl + "password-reset", {
         method: "POST",
@@ -218,28 +228,27 @@ export const goForgotPassword = createAsyncThunk(
         },
         body: JSON.stringify(email),
       })
-        .then((response) => {
-          return checkReponse(response)
-            .then((data) => {
-              return email.email;
-            })
-            .catch((error) => {
-              console.log(error);
-              return rejectWithValue([], error);
-            });
+        .then(async (response) => {
+          try {
+            await checkReponse(response);
+            return email.email;
+          } catch (error) {
+            console.log(error);
+            return rejectWithValue(error);
+          }
         })
         .catch((error) => {
           console.log(error);
-          return rejectWithValue([], error);
+          return rejectWithValue(error);
         });
     } catch (err) {
-      return rejectWithValue([], err);
+      return rejectWithValue(err);
     }
   }
 );
 export const goResetPassword = createAsyncThunk(
   "main/fetchResetPassword",
-  async (data, { rejectWithValue }) => {
+  async (data: { token: string; password: string }, { rejectWithValue }) => {
     try {
       return await fetch(apiUrl + "password-reset/reset", {
         method: "POST",
@@ -248,29 +257,30 @@ export const goResetPassword = createAsyncThunk(
         },
         body: JSON.stringify(data),
       })
-        .then((response) => {
-          return checkReponse(response)
-            .then((data) => {
-              return data;
-            })
-            .catch((error) => {
-              console.log(error);
-              return rejectWithValue([], error);
-            });
+        .then(async (response) => {
+          try {
+            return await checkReponse(response);
+          } catch (error) {
+            console.log(error);
+            return rejectWithValue(error);
+          }
         })
         .catch((error) => {
           console.log(error);
-          return rejectWithValue([], error);
+          return rejectWithValue(error);
         });
     } catch (err) {
-      return rejectWithValue([], err);
+      return rejectWithValue(err);
     }
   }
 );
 //profile
 export const getUser = createAsyncThunk(
   "main/fetchGetUser",
-  async (data, { dispatch, rejectWithValue }) => {
+  async (
+    data: { accessToken: string; refreshToken: string; user: IUser },
+    { dispatch, rejectWithValue }
+  ) => {
     try {
       return await fetch(apiUrl + "auth/user", {
         method: "GET",
@@ -299,17 +309,20 @@ export const getUser = createAsyncThunk(
         })
         .catch((error) => {
           console.log(error);
-          return rejectWithValue([], error);
+          return rejectWithValue(error);
         });
     } catch (err) {
       console.log(err);
-      return rejectWithValue([], err);
+      return rejectWithValue(err);
     }
   }
 );
 export const goChangeUser = createAsyncThunk(
   "main/fetchChangeUser",
-  async (data, { dispatch, rejectWithValue }) => {
+  async (
+    data: { accessToken: string; refreshToken: string; user: IUser },
+    { dispatch, rejectWithValue }
+  ) => {
     try {
       return await fetch(apiUrl + "auth/user", {
         method: "PATCH",
@@ -340,11 +353,11 @@ export const goChangeUser = createAsyncThunk(
         })
         .catch((error) => {
           console.log(error);
-          return rejectWithValue([], error);
+          return rejectWithValue(error);
         });
     } catch (err) {
       console.log(err);
-      return rejectWithValue([], err);
+      return rejectWithValue(err);
     }
   }
 );

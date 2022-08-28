@@ -7,10 +7,11 @@ import { Link, Redirect } from "react-router-dom";
 import { ChangeEvent, FormEvent, MouseEvent, useState } from "react";
 import { goRegister } from "../../services/actions/api";
 import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch } from "../types";
 
 export const RegisterBlock = (): JSX.Element => {
   const { user } = useSelector((store: any) => store.api);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [state, setState] = useState({
     email: "",
     name: "",
@@ -30,8 +31,8 @@ export const RegisterBlock = (): JSX.Element => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // @ts-ignore
-    dispatch(goRegister(state) as any);
+
+    dispatch(goRegister(state));
   };
   if (user.success) {
     return (

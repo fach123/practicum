@@ -15,6 +15,8 @@ import { NavLink, Route, Switch, useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getUser, goChangeUser, goLogout } from "../../services/actions/api";
+import { useAppDispatch } from "../types";
+import { ProfileOrdersBlock } from "../profile-orders/profile-orders";
 
 interface IMenu {
   title: string;
@@ -115,7 +117,7 @@ const ProfileForm = ({
 export const ProfileBlock = (): JSX.Element => {
   const { user } = useSelector((store: any) => store.api);
   const { path, url } = useRouteMatch();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [state, setState] = useState<IUserState>({
     email: user.user.email,
     name: user.user.name,
@@ -123,8 +125,7 @@ export const ProfileBlock = (): JSX.Element => {
   });
   useEffect(() => {
     if (user.success) {
-      // @ts-ignore
-      dispatch(getUser(user) as any);
+      dispatch(getUser(user));
     }
   }, []);
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -150,13 +151,12 @@ export const ProfileBlock = (): JSX.Element => {
     if (user.success) {
       //let userData = state;
       //userData.password === '' ? delete userData.password : userData.password;
-      // @ts-ignore
+
       dispatch(goChangeUser({ ...user, user: { ...state } }));
     }
   };
 
   const handleLogout = () => {
-    // @ts-ignore
     dispatch(goLogout({ token: user.refreshToken }));
   };
 
@@ -185,6 +185,9 @@ export const ProfileBlock = (): JSX.Element => {
           />
         </Route>
         <Route exact path={`${path}/orders`}>
+          <ProfileOrdersBlock />
+        </Route>
+        <Route exact path={`${path}/orders/:id`}>
           <div></div>
         </Route>
       </Switch>

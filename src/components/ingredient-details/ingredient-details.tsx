@@ -31,7 +31,6 @@ export const IngredientDetails = (): JSX.Element => {
       return <Preloader />;
     } else {
       const filtered = items.filter((item: IItem) => item._id === id);
-      console.log(filtered);
       const { image_large, name, calories, proteins, fat, carbohydrates } =
         filtered[0];
       return (

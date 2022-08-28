@@ -11,17 +11,54 @@ import {
   goChangeUser,
 } from "../actions/api";
 import { createReducer } from "@reduxjs/toolkit";
+import { IUser } from "../actions/api";
+import { IItem } from "../../components/types";
 
-const user = JSON.parse(localStorage.getItem("user"));
+let user;
+let userStorage = localStorage.getItem("user");
+if (userStorage) {
+  user = JSON.parse(userStorage);
+}
+interface IUser2 {
+  user: IUser | {};
+}
+interface IApi {
+  user: IUser2;
+  items: Array<IItem>;
+  itemsRequest: boolean;
+  itemsFailed: boolean;
+  orderItems: IOrderItems;
+  orderItemsRequest: boolean;
+  orderItemsFailed: boolean;
+  registerRequest: boolean;
+  registerFailed: boolean;
+  loginRequest: boolean;
+  loginFailed: boolean;
+  logoutRequest: boolean;
+  logoutFailed: boolean;
+  forgotRequest: boolean;
+  forgotFailed: boolean;
+  forgotEmail: string;
+  resetRequest: boolean;
+  resetSuccess: boolean;
+  resetFailed: boolean;
+  getUserRequest: boolean;
+  getUserFailed: boolean;
+  changeUserRequest: boolean;
+  changeUserFailed: boolean;
+}
+interface IOrderItems {
+  ingredients: Array<string>;
+}
 
-const initialState = {
+const initialState: IApi = {
   user: user ? user : {},
 
   items: [],
   itemsRequest: false,
   itemsFailed: false,
 
-  orderItems: {},
+  orderItems: { ingredients: [] },
   orderItemsRequest: false,
   orderItemsFailed: false,
 
@@ -39,6 +76,7 @@ const initialState = {
   forgotEmail: "",
 
   resetRequest: false,
+  resetSuccess: false,
   resetFailed: false,
 
   getUserRequest: false,
@@ -47,6 +85,13 @@ const initialState = {
   changeUserRequest: false,
   changeUserFailed: false,
 };
+
+export interface IUpdateUser {
+  success: boolean;
+  accessToken: string;
+  refreshToken: string;
+  user: IUser;
+}
 
 export const apiReducer = createReducer(initialState, (builder) => {
   builder
@@ -64,7 +109,7 @@ export const apiReducer = createReducer(initialState, (builder) => {
     })
     .addCase(sendOrder.pending, (state, action) => {
       state.orderItemsRequest = true;
-      state.orderItems = {};
+      state.orderItems = { ingredients: [] };
     })
     .addCase(sendOrder.rejected, (state, action) => {
       state.orderItemsRequest = false;
@@ -115,7 +160,7 @@ export const apiReducer = createReducer(initialState, (builder) => {
     .addCase(goLogout.fulfilled, (state, action) => {
       state.logoutRequest = false;
       state.logoutFailed = false;
-      state.user = {};
+      state.user = { user: {} };
       localStorage.removeItem("user");
     })
     .addCase(goForgotPassword.pending, (state, action) => {
