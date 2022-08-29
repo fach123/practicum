@@ -1,5 +1,6 @@
 .list {
-    overflow-y: scroll;
+    overflow-y: auto;
+    height: calc(100vh - 208px);
 }
 
 .linkOrder {

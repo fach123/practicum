@@ -9,16 +9,15 @@ import {
   DELETE_ITEM,
   SORT_INGREDIENT,
 } from "../../services/actions/constructor";
-import { useDispatch, useSelector } from "react-redux";
-import { IItem } from "../types";
+import {IItem, useAppDispatch, useAppSelector} from "../types";
 
 export const ShowIngredient = (item: IItem): JSX.Element => {
-  const { ingredients } = useSelector((store: any) => store.burgerConstructor);
+  const { ingredients } = useAppSelector((store) => store.burgerConstructor);
   const ref = useRef<HTMLDivElement>(null);
   const dragIndex = ingredients.findIndex((itemObject: IItem) => {
     return itemObject.constructorId === item.constructorId;
   });
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [, drop] = useDrop(() => ({
     accept: ["SORT_INGREDIENT"],

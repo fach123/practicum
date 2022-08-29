@@ -19,8 +19,11 @@ let userStorage = localStorage.getItem("user");
 if (userStorage) {
   user = JSON.parse(userStorage);
 }
-interface IUser2 {
-  user: IUser | {};
+export interface IUser2 {
+    accessToken?: string;
+  refreshToken?: string;
+    success?: boolean;
+  user?: IUser;
 }
 interface IApi {
   user: IUser2;
@@ -49,6 +52,7 @@ interface IApi {
 }
 interface IOrderItems {
   ingredients: Array<string>;
+  order?:{number:number}
 }
 
 const initialState: IApi = {
@@ -160,7 +164,7 @@ export const apiReducer = createReducer(initialState, (builder) => {
     .addCase(goLogout.fulfilled, (state, action) => {
       state.logoutRequest = false;
       state.logoutFailed = false;
-      state.user = { user: {} };
+      state.user = { };
       localStorage.removeItem("user");
     })
     .addCase(goForgotPassword.pending, (state, action) => {

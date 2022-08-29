@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 import style from "./profile-orders.module.css";
-import { TOrders, useAppDispatch } from "../types";
+import {TOrders, useAppDispatch, useAppSelector} from "../types";
 import { wsClose, wsConnect } from "../../services/actions/socket-profile";
-import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import FeedItem from "../feed/feed-item";
 import { Location } from "history";
+import Preloader from "../preloader/preloader";
 
 export const ProfileOrdersBlock = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const { user } = useSelector((store: any) => store.api);
-  const { orders } = useSelector((store: any) => store.socketProfile);
+  const { user } = useAppSelector((store) => store.api);
+  const { orders } = useAppSelector((store) => store.socketProfile);
   let location = useLocation<{ background: Location }>();
   useEffect(() => {
     if (user.accessToken) {
@@ -21,6 +21,7 @@ export const ProfileOrdersBlock = (): JSX.Element => {
       dispatch(wsClose);
     };
   }, [dispatch, user]);
+  if(orders){
   return (
     <div className={`${style.list} custom-scroll`}>
       {orders.map((order: TOrders) => (
@@ -30,10 +31,13 @@ export const ProfileOrdersBlock = (): JSX.Element => {
             pathname: `/profile/orders/${order.number}`,
             state: { background: location },
           }}
-        >
+          key={order.number} >
           <FeedItem order={order} key={order.number} />
         </Link>
       ))}
     </div>
   );
+  }else{
+    return <Preloader/>
+  }
 };

@@ -1,8 +1,7 @@
 import React from "react";
 import style from "./burger-ingredients.module.css";
-import { useSelector } from "react-redux";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
-import { IItem } from "../types";
+import {IItem, useAppSelector} from "../types";
 
 interface IFiltered {
   filtered: Array<IItem>;
@@ -27,7 +26,7 @@ interface IShowItem {
 }
 export const ShowItem = React.memo(
   React.forwardRef<TRef, IShowItem>(({ name, type }, ref): JSX.Element => {
-    const { items } = useSelector((store: any) => store.api);
+    const { items } = useAppSelector((store) => store.api);
     const filtered = React.useMemo(
       () => items.filter((item: IItem) => item.type === type),
       [items, type]

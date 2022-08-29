@@ -6,11 +6,10 @@ import {
 import { Link, Redirect } from "react-router-dom";
 import { ChangeEvent, FormEvent, MouseEvent, useState } from "react";
 import { goRegister } from "../../services/actions/api";
-import { useDispatch, useSelector } from "react-redux";
-import { useAppDispatch } from "../types";
+import {useAppDispatch, useAppSelector} from "../types";
 
 export const RegisterBlock = (): JSX.Element => {
-  const { user } = useSelector((store: any) => store.api);
+  const { user } = useAppSelector((store) => store.api);
   const dispatch = useAppDispatch();
   const [state, setState] = useState({
     email: "",

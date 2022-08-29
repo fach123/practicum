@@ -5,17 +5,16 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 
 import { goLogin } from "../../services/actions/api";
-import { useAppDispatch } from "../types";
+import {useAppDispatch, useAppSelector} from "../types";
 
 interface stateType {
   from: { pathname: string };
 }
 
 export const LoginBlock = (): JSX.Element => {
-  const { user } = useSelector((store: any) => store.api);
+  const { user } = useAppSelector((store) => store.api);
   const history = useHistory<stateType>();
   const dispatch = useAppDispatch();
   const [stateForm, setStateForm] = useState({

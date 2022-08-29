@@ -20,7 +20,6 @@ import { ProtectedRoute } from "../protected-route";
 import { getIngredients } from "../../services/actions/api";
 import { Location } from "history";
 import { FeedDetails } from "../feed/feed-details";
-import { useDispatch } from "react-redux";
 import { useAppDispatch } from "../types";
 
 interface stateType {

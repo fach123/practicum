@@ -1,9 +1,7 @@
 import React, { useMemo } from "react";
-import { IItem, TOrders } from "../types";
+import {IItem, TOrders, useAppSelector} from "../types";
 import style from "./feed-item.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 interface IFeedItem {
@@ -28,7 +26,7 @@ export const formatDate = (date: Date) => {
 };
 
 const FeedItem: React.FC<IFeedItem> = ({ order }) => {
-  const { items } = useSelector((store: any) => store.api);
+  const { items } = useAppSelector((store) => store.api);
   const orderIngredients = order.ingredients.map((value, index, array) => {
     return items.find((item: IItem) => item._id === value);
   });
@@ -65,7 +63,7 @@ const FeedItem: React.FC<IFeedItem> = ({ order }) => {
                     position: "relative",
                     left: `-${index * 30}px`,
                   }}
-                  key={uuidv4()}
+                  key={index}
                 >
                   <span className="text text_type_main-medium text_color_primary">
                     +{orderIngredients.length - 1 - maxCountItems}
@@ -87,7 +85,7 @@ const FeedItem: React.FC<IFeedItem> = ({ order }) => {
                   zIndex: `${10 - index}`,
                 }}
                 className={style.image}
-                key={uuidv4()}
+                key={index}
               />
             );
           })}

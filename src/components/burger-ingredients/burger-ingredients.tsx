@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-ingredients.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import { ShowItem } from "./show-item-ingredient";
 import Preloader from "../preloader/preloader";
+import {useAppSelector} from "../types";
 
 const BurgerIngredients = (): JSX.Element => {
   const [current, setCurrent] = useState("bul");
@@ -14,7 +14,7 @@ const BurgerIngredients = (): JSX.Element => {
   const scrollLabel_sauce = useRef<HTMLDivElement>(null);
   const scrollLabel_fillings = useRef(null); //no use
   const scrollTabs = useRef(null);
-  const { items } = useSelector((store: any) => store.api);
+  const { items } = useAppSelector((store) => store.api);
 
   const setCurrentById = useCallback((name: string) => {
     if (currentTabRef.current !== name) {

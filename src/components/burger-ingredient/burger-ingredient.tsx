@@ -5,13 +5,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-ingredient.module.css";
 import { useDrag } from "react-dnd";
-import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { IItem } from "../types";
+import {IItem, useAppSelector} from "../types";
 import { Location } from "history";
 
 const BurgerIngredient = (props: IItem): JSX.Element => {
-  const { ingredients } = useSelector((store: any) => store.burgerConstructor);
+  const { ingredients } = useAppSelector((store) => store.burgerConstructor);
   const { image, name, price, _id } = props;
   const item = props;
   const [{ isDragging }, drag] = useDrag(() => ({

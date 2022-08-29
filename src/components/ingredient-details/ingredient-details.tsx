@@ -1,9 +1,8 @@
 import React from "react";
 import style from "./ingredient-details.module.css";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import Preloader from "../preloader/preloader";
-import { IItem } from "../types";
+import {IItem, useAppSelector} from "../types";
 
 interface IQuizParams {
   id: string;
@@ -24,7 +23,7 @@ const ProductProperties = ({ title, property }: IProduct): JSX.Element => {
 };
 export const IngredientDetails = (): JSX.Element => {
   const { id }: IQuizParams = useParams();
-  const { items } = useSelector((store: any) => store.api);
+  const { items } = useAppSelector((store) => store.api);
 
   const ShowIsEmpty = () => {
     if (items.length === 0) {

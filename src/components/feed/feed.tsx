@@ -5,16 +5,15 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { wsClose, wsConnect } from "../../services/actions/socket-all";
-import { TOrders } from "../types";
+import {TOrders, useAppDispatch, useAppSelector} from "../types";
 import FeedItem from "./feed-item";
 import { Location } from "history";
 
 export const FeedBlock: React.FC = () => {
-  const dispatch = useDispatch();
-  const { orders, totalToday, total } = useSelector(
-    (store: any) => store.socket
+  const dispatch = useAppDispatch();
+  const { orders, totalToday, total } = useAppSelector(
+    (store) => store.socket
   );
 
   const readyOrders = useMemo(() => {
@@ -28,7 +27,7 @@ export const FeedBlock: React.FC = () => {
   useEffect(() => {
     dispatch(wsConnect(""));
     return () => {
-      dispatch(wsClose);
+      dispatch(wsClose());
     };
   }, [dispatch]);
   let location = useLocation<{ background: Location }>();
@@ -46,6 +45,7 @@ export const FeedBlock: React.FC = () => {
                   pathname: `/feed/${order.number}`,
                   state: { background: location },
                 }}
+                key={order.number}
               >
                 <FeedItem order={order} key={order.number} />
               </Link>

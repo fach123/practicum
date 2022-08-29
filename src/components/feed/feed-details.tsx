@@ -1,10 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { IItem, TOrders } from "../types";
+import {IItem, TOrders, useAppSelector} from "../types";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import style from "./feed-details.module.css";
 import { formatDate, statusList } from "./feed-item";
-import { v4 as uuidv4 } from "uuid";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import Preloader from "../preloader/preloader";
 
@@ -31,8 +29,9 @@ interface IState {
 }
 
 const FeedBlockH: React.FC<IFeedBlockH> = ({ order, items }) => {
+  //console.log(order,items)
   const orderIngredients = order.ingredients.map((value, index, array) => {
-    return items.find((item: IItem) => item._id === value);
+    return items.find((item) => item._id === value);
   });
   // @ts-ignore
   const clearOrderIngredients = [...new Map(orderIngredients.map((item) => [item["_id"], item])).values(),];
@@ -92,7 +91,7 @@ const FeedBlockH: React.FC<IFeedBlockH> = ({ order, items }) => {
 const FromSocketDetails: React.FC<ISocketDetails> = ({ orders }) => {
   const { id }: IQuizParams = useParams();
   const order = orders.find((i: TOrders) => i.number === parseInt(id));
-  const { items } = useSelector((store: any) => store.api);
+  const { items } = useAppSelector((store) => store.api);
   if (order && items.length > 0) {
     return <FeedBlockH order={order} items={items} />;
   } else {
@@ -100,11 +99,11 @@ const FromSocketDetails: React.FC<ISocketDetails> = ({ orders }) => {
   }
 };
 const FromHttpDetails: React.FC<IState> = (state) => {
-  const { items } = useSelector((store: any) => store.api);
+  const { items } = useAppSelector((store) => store.api);
   const { success, orders } = state.state;
   if (success && items.length > 0) {
     return (
-      <div style={{ textAlign: "center" }}>
+      <div className={style.page}>
         <FeedBlockH order={orders[0]} items={items} />
       </div>
     );
@@ -128,7 +127,7 @@ export const FeedDetails: React.FC = () => {
       return setState(data);
     });
   }, []);
-  const { orders } = useSelector((store: any) => store.socket);
+  const { orders } = useAppSelector((store) => store.socket);
   return orders.length > 0 ? (
     <FromSocketDetails orders={orders} />
   ) : (

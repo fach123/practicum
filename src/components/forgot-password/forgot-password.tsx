@@ -6,11 +6,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect } from "react-router-dom";
 import { goForgotPassword } from "../../services/actions/api";
-import { useDispatch, useSelector } from "react-redux";
-import { useAppDispatch } from "../types";
+import {useAppDispatch, useAppSelector} from "../types";
 
 export const ForgotBlock = (): JSX.Element => {
-  const { forgotEmail, user } = useSelector((store: any) => store.api);
+  const { forgotEmail, user } = useAppSelector((store) => store.api);
   const dispatch = useAppDispatch();
   const [state, setState] = useState("");
 

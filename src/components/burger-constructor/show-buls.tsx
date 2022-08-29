@@ -4,16 +4,17 @@ import { IItem } from "../types";
 
 type TshowBuls = {
   type: "top" | "bottom";
-  bun: IItem;
+  bun: IItem | null;
 };
 export const ShowBuls = ({ bun, type }: Required<TshowBuls>): JSX.Element => {
+  const BulkaName = bun? bun.name + (type === "top" ? ' (верх)': ' (низ)') : '';
   return (
     <>
       {bun ? (
         <ConstructorElement
           type={type}
           isLocked={true}
-          text={bun.name}
+          text={BulkaName}
           price={bun.price}
           thumbnail={bun.image}
         />
