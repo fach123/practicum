@@ -86,7 +86,7 @@ const FeedItem: React.FC<IFeedItem> = ({ order }) => {
                 }}
                 className={style.image}
                 key={index}
-              />
+              >&nbsp;</div>
             );
           })}
         </div>

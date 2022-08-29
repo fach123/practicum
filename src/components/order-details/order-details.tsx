@@ -13,7 +13,7 @@ const OrderDetails = (): JSX.Element => {
   const { bun, ingredients } = useAppSelector(
     (store) => store.burgerConstructor
   );
-  const { orderItems, orderItemsRequest, orderItemsFailed } = useAppSelector(
+  const { orderItems, orderItemsRequest, orderItemsFailed,user } = useAppSelector(
     (store) => store.api
   );
   const dispatch = useAppDispatch();
@@ -21,13 +21,13 @@ const OrderDetails = (): JSX.Element => {
     return ingredients.length > 0 && bun !== null;
   };
   useEffect(() => {
-    if (validateItems() && bun) {
+    if (validateItems() && bun && user.accessToken) {
       let allIds = ingredients.map((item: IItem) => item._id);
       allIds.push(bun._id);
 
-      dispatch(sendOrder({ ingredients: allIds }));
+      dispatch(sendOrder({ ingredients: allIds,accessToken: user.accessToken}));
     }
-  }, [dispatch, bun, ingredients]);
+  }, [dispatch, bun, ingredients, user]);
   const ShowEmpty = (): JSX.Element => {
     return (
       <div className={`${style.modal_main} mb-4`}>

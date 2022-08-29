@@ -100,12 +100,13 @@ export const getIngredients = createAsyncThunk(
 );
 export const sendOrder = createAsyncThunk(
   "main/fetchOrder",
-  async (data: { ingredients: Array<string> }, { rejectWithValue }) => {
+  async (data: { ingredients: Array<string>,accessToken:string }, { rejectWithValue }) => {
     try {
       return await fetch(apiUrl + "orders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+            authorization: data.accessToken,
         },
         body: JSON.stringify(data),
       })
