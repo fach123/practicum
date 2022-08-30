@@ -3,8 +3,6 @@ import * as ReactDOM from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./modal.module.css";
 import ModalOverlay from "../modal-overlay/modal-overlay";
-import { useDispatch } from "react-redux";
-import { DELETE_INFO, SET_INFO } from "../../services/actions/modal-details";
 const modalRoot = document.getElementById("react-modals") as HTMLElement;
 
 interface IModal {
@@ -13,15 +11,10 @@ interface IModal {
   title: string;
 }
 const ModalBlock: React.FC<IModal> = (props): JSX.Element => {
-  const dispatch = useDispatch();
-
   useEffect(() => {
     document.addEventListener("keydown", onKeydown);
-    // @ts-ignore
-    dispatch(SET_INFO(props.children.props) as any);
     return () => {
       document.removeEventListener("keydown", onKeydown);
-      dispatch(DELETE_INFO());
     };
   });
   const onKeydown = ({ key }: KeyboardEvent) => {

@@ -1,0 +1,9 @@
+.list {
+    overflow-y: auto;
+    height: calc(100vh - 208px);
+}
+
+.linkOrder {
+    text-decoration: none;
+    color: var(--text-primary-color);
+}

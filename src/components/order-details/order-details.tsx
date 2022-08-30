@@ -1,34 +1,33 @@
 import React, { useEffect } from "react";
 import style from "./order-details.module.css";
 import okLogo from "../../images/graphics.svg";
-import { useDispatch, useSelector } from "react-redux";
 import { sendOrder } from "../../services/actions/api";
 import Preloader from "../preloader/preloader";
-import { IItem } from "../types";
+import {IItem, useAppDispatch, useAppSelector} from "../types";
 
 /*interface ISendOrder {
   ingredients: number[];
 }
 */
 const OrderDetails = (): JSX.Element => {
-  const { bun, ingredients } = useSelector(
-    (store: any) => store.burgerConstructor
+  const { bun, ingredients } = useAppSelector(
+    (store) => store.burgerConstructor
   );
-  const { orderItems, orderItemsRequest, orderItemsFailed } = useSelector(
-    (store: any) => store.api
+  const { orderItems, orderItemsRequest, orderItemsFailed,user } = useAppSelector(
+    (store) => store.api
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const validateItems = (): boolean => {
-    return ingredients.length > 0 && bun !== null && bun !== "null";
+    return ingredients.length > 0 && bun !== null;
   };
   useEffect(() => {
-    if (validateItems()) {
+    if (validateItems() && bun && user.accessToken) {
       let allIds = ingredients.map((item: IItem) => item._id);
       allIds.push(bun._id);
-      // @ts-ignore
-      dispatch(sendOrder({ ingredients: allIds }) as any);
+
+      dispatch(sendOrder({ ingredients: allIds,accessToken: user.accessToken}));
     }
-  }, [dispatch, bun, ingredients]);
+  }, [dispatch, bun, ingredients, user]);
   const ShowEmpty = (): JSX.Element => {
     return (
       <div className={`${style.modal_main} mb-4`}>
@@ -49,7 +48,7 @@ const OrderDetails = (): JSX.Element => {
     return (
       <div className={`${style.modal_main} mb-4`}>
         <p className={`${style.order_number} text text_type_digits-large mb-8`}>
-          {orderItems.order.number}
+          {orderItems.order ? orderItems.order.number : 0}
         </p>
         <p className="text text_type_main-medium mb-15">идентификатор заказа</p>
         <img src={okLogo} alt="OK" className="mb-15" />

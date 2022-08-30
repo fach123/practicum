@@ -6,7 +6,6 @@ import {
 import style from "./burger-constructor.module.css";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
-import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import {
   DROP_ITEM_BUN,
@@ -15,17 +14,17 @@ import {
 import { ShowBuls } from "./show-buls";
 import { ShowIngredient } from "./show-ingredient";
 import { useHistory } from "react-router-dom";
-import { IItem } from "../types";
+import {IItem, useAppDispatch, useAppSelector} from "../types";
 
 const BurgerConstructor = (): JSX.Element => {
-  const { user } = useSelector((store: any) => store.api);
+  const { user } = useAppSelector((store) => store.api);
   const history = useHistory();
   const [openModal, setOpenModal] = useState<boolean>(false);
 
-  const { bun, ingredients } = useSelector(
-    (store: any) => store.burgerConstructor
+  const { bun, ingredients } = useAppSelector(
+    (store) => store.burgerConstructor
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [, drop] = useDrop(() => ({
     accept: ["SORT_INGREDIENT", "NEW_INGREDIENT"],

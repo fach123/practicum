@@ -5,13 +5,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-ingredient.module.css";
 import { useDrag } from "react-dnd";
-import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { IItem } from "../types";
+import {IItem, useAppSelector} from "../types";
 import { Location } from "history";
 
 const BurgerIngredient = (props: IItem): JSX.Element => {
-  const { ingredients } = useSelector((store: any) => store.burgerConstructor);
+  const { ingredients, bun } = useAppSelector((store) => store.burgerConstructor);
   const { image, name, price, _id } = props;
   const item = props;
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -25,6 +24,9 @@ const BurgerIngredient = (props: IItem): JSX.Element => {
   }));
   const opacity = isDragging ? 0.4 : 1;
   const GetCount = (): JSX.Element | null => {
+    if(bun && bun._id === _id){
+      return <Counter count={1} size="default" />;
+    }
     const counter = ingredients.filter((item: IItem) => {
       return item._id === _id;
     }).length;

@@ -25,7 +25,7 @@ const AppHeader = (): JSX.Element => {
           <NavLink
             href="/"
             className={`${style.link} pr-5 pl-5 pt-4 pb-4 ml-2`}
-            to="/lenta"
+            to="/feed"
             exact
             activeClassName={style.link_active}
           >

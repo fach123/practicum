@@ -10,12 +10,26 @@ import { Provider } from "react-redux";
 import "./index.css";
 import App from "./components/app/App";
 import reportWebVitals from "./reportWebVitals";
+import { webSocketHandler } from "./services/middleware/socket-middleware";
+import { allOrdersActions } from "./services/actions/socket-all";
+import { profileOrdersActions } from "./services/actions/socket-profile";
 
-const store = configureStore({
+const WS_ALL_ORDERS = "wss://norma.nomoreparties.space/orders/all";
+const WS_PROFILE_ORDERS = "wss://norma.nomoreparties.space/orders";
+
+export const store = configureStore({
   reducer: rootReducer,
-  middleware: [thunk],
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(
+      webSocketHandler(WS_ALL_ORDERS, allOrdersActions),
+      webSocketHandler(WS_PROFILE_ORDERS, profileOrdersActions)
+    ),
   devTools: process.env.NODE_ENV !== "production",
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );

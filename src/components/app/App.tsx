@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { Switch, Route, useLocation, useHistory } from "react-router-dom";
 import {
+  FeedPage,
+  FeedDetailsPage,
   RegisterPage,
   HomePage,
   LoginPage,
@@ -16,8 +18,9 @@ import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import Modal from "../modal/modal";
 import { ProtectedRoute } from "../protected-route";
 import { getIngredients } from "../../services/actions/api";
-import { useDispatch } from "react-redux";
 import { Location } from "history";
+import { FeedDetails } from "../feed/feed-details";
+import { useAppDispatch } from "../types";
 
 interface stateType {
   background: Location;
@@ -27,7 +30,7 @@ function App(): JSX.Element {
   const history = useHistory();
   const location = useLocation<stateType>();
   const background = location.state && location.state.background;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const setOpenModal = (value: boolean) => {
     if (!value) {
@@ -35,7 +38,7 @@ function App(): JSX.Element {
     }
   };
   useEffect(() => {
-    dispatch(getIngredients() as any);
+    dispatch(getIngredients());
   }, [dispatch]);
   return (
     <>
@@ -43,6 +46,12 @@ function App(): JSX.Element {
       <Switch location={background || location}>
         <Route path="/" exact={true}>
           <HomePage />
+        </Route>
+        <Route path="/feed" exact={true}>
+          <FeedPage />
+        </Route>
+        <Route path="/feed/:id">
+          <FeedDetailsPage />
         </Route>
         <Route path="/login" /*isAuth={true}*/>
           <LoginPage />
@@ -67,11 +76,24 @@ function App(): JSX.Element {
         </Route>
       </Switch>
       {background && (
-        <Route path="/ingredients/:id">
-          <Modal title="Детали ингредиента" setOpenModal={setOpenModal}>
-            <IngredientDetails />
-          </Modal>
-        </Route>
+        <>
+          <Route path="/ingredients/:id">
+            <Modal title="Детали ингредиента" setOpenModal={setOpenModal}>
+              <IngredientDetails />
+            </Modal>
+          </Route>
+          <Route path="/feed/:id">
+            <Modal title="Детали заказа" setOpenModal={setOpenModal}>
+              <FeedDetails />
+            </Modal>
+          </Route>
+
+          <ProtectedRoute path="/profile/orders/:id">
+            <Modal title="Детали заказа" setOpenModal={setOpenModal}>
+              <FeedDetails />
+            </Modal>
+          </ProtectedRoute>
+        </>
       )}
     </>
   );
