@@ -6,15 +6,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useLocation } from "react-router-dom";
 import { wsClose, wsConnect } from "../../services/actions/socket-all";
-import {TOrders, useAppDispatch, useAppSelector} from "../types";
+import { TOrders, useAppDispatch, useAppSelector } from "../types";
 import FeedItem from "./feed-item";
 import { Location } from "history";
 
 export const FeedBlock: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { orders, totalToday, total } = useAppSelector(
-    (store) => store.socket
-  );
+  const { orders, totalToday, total } = useAppSelector((store) => store.socket);
 
   const readyOrders = useMemo(() => {
     return orders.filter((i: TOrders) => i.status === "done");

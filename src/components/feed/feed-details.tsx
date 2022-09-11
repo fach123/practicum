@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import {IItem, TOrders, useAppSelector} from "../types";
+import { IItem, TOrders, useAppSelector } from "../types";
 import { useParams } from "react-router-dom";
 import style from "./feed-details.module.css";
 import { formatDate, statusList } from "./feed-item";

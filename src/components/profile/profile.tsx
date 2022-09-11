@@ -14,9 +14,9 @@ import {
 import { NavLink, Route, Switch, useRouteMatch } from "react-router-dom";
 
 import { getUser, goChangeUser, goLogout } from "../../services/actions/api";
-import {useAppDispatch, useAppSelector} from "../types";
+import { useAppDispatch, useAppSelector } from "../types";
 import { ProfileOrdersBlock } from "../profile-orders/profile-orders";
-import {FeedDetailsPage} from "../../pages";
+import { FeedDetailsPage } from "../../pages";
 
 interface IMenu {
   title: string;
@@ -115,12 +115,12 @@ const ProfileForm = ({
   );
 };
 export const ProfileBlock = (): JSX.Element => {
-  const { user } = useAppSelector((store:any) => store.api);
+  const { user } = useAppSelector((store: any) => store.api);
   const { path, url } = useRouteMatch();
   const dispatch = useAppDispatch();
   const [state, setState] = useState<IUserState>({
-    email: user.user ? user.user.email : '',
-    name: user.user ? user.user.name : '',
+    email: user.user ? user.user.email : "",
+    name: user.user ? user.user.name : "",
     password: "",
   });
   useEffect(() => {
@@ -141,8 +141,8 @@ export const ProfileBlock = (): JSX.Element => {
   const handleBackProfileData = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setState({
-      email: user.user ? user.user.email : '',
-      name: user.user ? user.user.name : '',
+      email: user.user ? user.user.email : "",
+      name: user.user ? user.user.name : "",
       password: "",
     });
   };
@@ -157,7 +157,7 @@ export const ProfileBlock = (): JSX.Element => {
   };
 
   const handleLogout = () => {
-    dispatch(goLogout({ token: user.refreshToken  }));
+    dispatch(goLogout({ token: user.refreshToken }));
   };
 
   return (

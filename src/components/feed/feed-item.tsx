@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import {IItem, TOrders, useAppSelector} from "../types";
+import { IItem, TOrders, useAppSelector } from "../types";
 import style from "./feed-item.module.css";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
@@ -86,7 +86,9 @@ const FeedItem: React.FC<IFeedItem> = ({ order }) => {
                 }}
                 className={style.image}
                 key={index}
-              >&nbsp;</div>
+              >
+                &nbsp;
+              </div>
             );
           })}
         </div>

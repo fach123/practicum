@@ -6,7 +6,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect } from "react-router-dom";
 import { goResetPassword } from "../../services/actions/api";
-import {useAppDispatch, useAppSelector} from "../types";
+import { useAppDispatch, useAppSelector } from "../types";
 
 export const ResetBlock = () => {
   const { resetSuccess, forgotEmail, user } = useAppSelector(

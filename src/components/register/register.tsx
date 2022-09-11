@@ -6,7 +6,7 @@ import {
 import { Link, Redirect } from "react-router-dom";
 import { ChangeEvent, FormEvent, MouseEvent, useState } from "react";
 import { goRegister } from "../../services/actions/api";
-import {useAppDispatch, useAppSelector} from "../types";
+import { useAppDispatch, useAppSelector } from "../types";
 
 export const RegisterBlock = (): JSX.Element => {
   const { user } = useAppSelector((store) => store.api);

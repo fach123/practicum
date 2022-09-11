@@ -39,6 +39,7 @@ export const constructReducer = createReducer(initialState, (builder) => {
       });
       state.ingredients = newIngredients;
     })
+    //не используется SORT_INGREDIENT
     .addCase(SORT_INGREDIENT, (state, action) => {
       const dragIndex = state.ingredients.findIndex((itemObject) => {
         return itemObject.constructorId === action.payload.from;

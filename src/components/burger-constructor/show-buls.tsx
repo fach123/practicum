@@ -7,7 +7,9 @@ type TshowBuls = {
   bun: IItem | null;
 };
 export const ShowBuls = ({ bun, type }: Required<TshowBuls>): JSX.Element => {
-  const BulkaName = bun? bun.name + (type === "top" ? ' (верх)': ' (низ)') : '';
+  const BulkaName = bun
+    ? bun.name + (type === "top" ? " (верх)" : " (низ)")
+    : "";
   return (
     <>
       {bun ? (

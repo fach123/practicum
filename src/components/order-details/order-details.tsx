@@ -3,7 +3,7 @@ import style from "./order-details.module.css";
 import okLogo from "../../images/graphics.svg";
 import { sendOrder } from "../../services/actions/api";
 import Preloader from "../preloader/preloader";
-import {IItem, useAppDispatch, useAppSelector} from "../types";
+import { IItem, useAppDispatch, useAppSelector } from "../types";
 
 /*interface ISendOrder {
   ingredients: number[];
@@ -13,9 +13,8 @@ const OrderDetails = (): JSX.Element => {
   const { bun, ingredients } = useAppSelector(
     (store) => store.burgerConstructor
   );
-  const { orderItems, orderItemsRequest, orderItemsFailed,user } = useAppSelector(
-    (store) => store.api
-  );
+  const { orderItems, orderItemsRequest, orderItemsFailed, user } =
+    useAppSelector((store) => store.api);
   const dispatch = useAppDispatch();
   const validateItems = (): boolean => {
     return ingredients.length > 0 && bun !== null;
@@ -25,7 +24,9 @@ const OrderDetails = (): JSX.Element => {
       let allIds = ingredients.map((item: IItem) => item._id);
       allIds.push(bun._id);
 
-      dispatch(sendOrder({ ingredients: allIds,accessToken: user.accessToken}));
+      dispatch(
+        sendOrder({ ingredients: allIds, accessToken: user.accessToken })
+      );
     }
   }, [dispatch, bun, ingredients, user]);
   const ShowEmpty = (): JSX.Element => {

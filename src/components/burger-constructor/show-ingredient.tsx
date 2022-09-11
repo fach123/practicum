@@ -9,7 +9,7 @@ import {
   DELETE_ITEM,
   SORT_INGREDIENT,
 } from "../../services/actions/constructor";
-import {IItem, useAppDispatch, useAppSelector} from "../types";
+import { IItem, useAppDispatch, useAppSelector } from "../types";
 
 export const ShowIngredient = (item: IItem): JSX.Element => {
   const { ingredients } = useAppSelector((store) => store.burgerConstructor);

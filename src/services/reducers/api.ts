@@ -20,9 +20,9 @@ if (userStorage) {
   user = JSON.parse(userStorage);
 }
 export interface IUser2 {
-    accessToken?: string;
+  accessToken?: string;
   refreshToken?: string;
-    success?: boolean;
+  success?: boolean;
   user?: IUser;
 }
 interface IApi {
@@ -52,7 +52,7 @@ interface IApi {
 }
 interface IOrderItems {
   ingredients: Array<string>;
-  order?:{number:number}
+  order?: { number: number };
 }
 
 const initialState: IApi = {
@@ -164,7 +164,7 @@ export const apiReducer = createReducer(initialState, (builder) => {
     .addCase(goLogout.fulfilled, (state, action) => {
       state.logoutRequest = false;
       state.logoutFailed = false;
-      state.user = { };
+      state.user = {};
       localStorage.removeItem("user");
     })
     .addCase(goForgotPassword.pending, (state, action) => {
