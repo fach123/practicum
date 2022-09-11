@@ -22,7 +22,7 @@ export type TAllOrdersStore = {
   totalToday: number;
 };
 
-const initialState: TAllOrdersStore = {
+export const initialState: TAllOrdersStore = {
   status: WebsocketStatus.OFFLINE,
   connectionError: "",
   orders: [],

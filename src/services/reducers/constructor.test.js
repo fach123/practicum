@@ -1,12 +1,7 @@
-import { constructReducer } from "./constructor";
+import { constructReducer,initialState } from "./constructor";
 import * as actions from "../actions/constructor";
 
 describe("constructor reducer", () => {
-  const initialState = {
-    ingredients: [],
-    bun: null,
-    draggedIngredient: null,
-  };
   it("returns the initial state", () => {
     expect(constructReducer(undefined, {})).toEqual(initialState);
   });

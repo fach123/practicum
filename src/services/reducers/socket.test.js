@@ -1,14 +1,8 @@
-import { socketReducer } from "./socket";
+import { socketReducer,initialState } from "./socket";
 import * as actions from "../actions/socket-all";
 
 describe("socket reducer", () => {
-  const initialState = {
-    status: "OFFLINE",
-    connectionError: "",
-    total: 0,
-    totalToday: 0,
-    orders: [],
-  };
+
   it("returns the initial state", () => {
     expect(socketReducer(undefined, {})).toEqual(initialState);
   });

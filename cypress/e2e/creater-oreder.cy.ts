@@ -1,6 +1,7 @@
+import {baseTestUrl} from "./urls"
 describe("order creator test", () => {
     it("login | drag to constructor | send order", () => {
-        cy.visit("http://localhost:3000/login");
+        cy.visit(baseTestUrl+"/login");
         cy.get("input[type=email]").type("fach123@ya.ru");
         cy.get("input[type=password]").type("123");
         cy.get("button").contains("Войти").click();

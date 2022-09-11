@@ -1,6 +1,7 @@
+import {baseTestUrl} from "./urls"
 describe("drag and drop", () => {
   it("drag to constructor", () => {
-    cy.visit("http://localhost:3000");
+    cy.visit(baseTestUrl);
 
     cy.get('[data-cy="ingItem_bun"]').first().trigger("dragstart", {
       dataTransfer: new DataTransfer(),

@@ -1,14 +1,6 @@
-import { apiReducer } from "./api";
+import { apiReducer, initialState } from "./api";
 import * as actions from "../actions/api";
-import {
-  getUser,
-  goChangeUser,
-  goForgotPassword,
-  goLogin,
-  goLogout,
-  sendOrder,
-  UPDATE_USER,
-} from "../actions/api";
+
 
 describe("apiReducer", () => {
   let user;
@@ -16,40 +8,6 @@ describe("apiReducer", () => {
   if (userStorage) {
     user = JSON.parse(userStorage);
   }
-  const initialState = {
-    user: user ? user : {},
-
-    items: [],
-    itemsRequest: false,
-    itemsFailed: false,
-
-    orderItems: { ingredients: [] },
-    orderItemsRequest: false,
-    orderItemsFailed: false,
-
-    registerRequest: false,
-    registerFailed: false,
-
-    loginRequest: false,
-    loginFailed: false,
-
-    logoutRequest: false,
-    logoutFailed: false,
-
-    forgotRequest: false,
-    forgotFailed: false,
-    forgotEmail: "",
-
-    resetRequest: false,
-    resetSuccess: false,
-    resetFailed: false,
-
-    getUserRequest: false,
-    getUserFailed: false,
-
-    changeUserRequest: false,
-    changeUserFailed: false,
-  };
 
   it("returns the initial state", () => {
     expect(apiReducer(undefined, {})).toEqual(initialState);

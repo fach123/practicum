@@ -16,7 +16,7 @@ interface IConstructor {
   draggedIngredient: any;
 }
 
-const initialState: IConstructor = {
+export const initialState: IConstructor = {
   ingredients: [],
   bun: null,
   draggedIngredient: null,

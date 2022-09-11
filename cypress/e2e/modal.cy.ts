@@ -1,12 +1,13 @@
+import {baseTestUrl} from "./urls"
 describe("test modals", () => {
   it("open modals", () => {
-    cy.visit("http://localhost:3000");
+    cy.visit(baseTestUrl);
     cy.get('[data-cy="ingItem_bun"]').first().click();
     cy.get("#react-modals").should("contain", "Детали ингредиента");
   });
 
   it("show details", () => {
-    cy.visit("http://localhost:3000");
+    cy.visit(baseTestUrl);
     cy.get('[data-cy="ingItem_bun"]').first().click();
     cy.get("#react-modals")
       .should("contain", "Краторная булка N-200i")
@@ -21,7 +22,7 @@ describe("test modals", () => {
   });
 
   it("close modals", () => {
-    cy.visit("http://localhost:3000");
+    cy.visit(baseTestUrl);
     cy.get('[data-cy="ingItem_bun"]').first().click();
     cy.get("#react-modals").should("contain", "Детали ингредиента");
     cy.get("#react-modals span").first().click();
@@ -29,7 +30,7 @@ describe("test modals", () => {
   });
 
   it("closes modal on overlay click", () => {
-    cy.visit("http://localhost:3000");
+    cy.visit(baseTestUrl);
     cy.get('[data-cy="ingItem_bun"]').first().click();
     cy.get("#react-modals").should("contain", "Детали ингредиента");
     cy.get("body").click(1, 1);

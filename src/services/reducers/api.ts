@@ -55,7 +55,7 @@ interface IOrderItems {
   order?: { number: number };
 }
 
-const initialState: IApi = {
+export const initialState: IApi = {
   user: user ? user : {},
 
   items: [],

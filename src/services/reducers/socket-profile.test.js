@@ -1,14 +1,8 @@
-import { socketProfileReducer } from "./socket-profile";
+import { socketProfileReducer,initialState } from "./socket-profile";
 import * as actions from "../actions/socket-profile";
 
 describe("socket reducer", () => {
-  const initialState = {
-    status: "OFFLINE",
-    connectionError: "",
-    total: 0,
-    totalToday: 0,
-    orders: [],
-  };
+
   it("returns the initial state", () => {
     expect(socketProfileReducer(undefined, {})).toEqual(initialState);
   });
