@@ -1,8 +1,10 @@
 import {
   ActionCreatorWithoutPayload,
-  ActionCreatorWithPayload, Middleware, MiddlewareAPI,
+  ActionCreatorWithPayload,
+  Middleware,
+  MiddlewareAPI,
 } from "@reduxjs/toolkit";
-import {AppDispatch, RootState} from "../../index";
+import { AppDispatch, RootState } from "../../index";
 
 export type TWsActions = {
   wsConnect: ActionCreatorWithPayload<string>;
@@ -14,7 +16,10 @@ export type TWsActions = {
   wsMessage: ActionCreatorWithPayload<any>;
 };
 
-export const webSocketHandler = (url: string, wsActions: TWsActions): Middleware => {
+export const webSocketHandler = (
+  url: string,
+  wsActions: TWsActions
+): Middleware => {
   let socket: WebSocket | null = null;
   let isConnected = false;
   let reconnectTimer = 0;

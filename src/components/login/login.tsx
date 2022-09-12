@@ -7,7 +7,7 @@ import {
 import { Link, Redirect, useHistory } from "react-router-dom";
 
 import { goLogin } from "../../services/actions/api";
-import {useAppDispatch, useAppSelector} from "../types";
+import { useAppDispatch, useAppSelector } from "../types";
 
 interface stateType {
   from: { pathname: string };

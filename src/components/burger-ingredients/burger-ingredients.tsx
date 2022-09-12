@@ -3,7 +3,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burger-ingredients.module.css";
 import { ShowItem } from "./show-item-ingredient";
 import Preloader from "../preloader/preloader";
-import {useAppSelector} from "../types";
+import { useAppSelector } from "../types";
 
 const BurgerIngredients = (): JSX.Element => {
   const [current, setCurrent] = useState("bul");
@@ -79,16 +79,27 @@ const BurgerIngredients = (): JSX.Element => {
     <div className={`${style.inner} mr-10`}>
       <h1 className="text text_type_main-large mt-10">Соберите бургер</h1>
       <div className={`${style.tabs} mt-5`} ref={scrollTabs}>
-        <Tab value={"bul"} active={current === "bul"} onClick={goToLabel}>
+        <Tab
+          value={"bul"}
+          active={current === "bul"}
+          onClick={goToLabel}
+          data-cy="buls"
+        >
           Булки
         </Tab>
-        <Tab value={"sauce"} active={current === "sauce"} onClick={goToLabel}>
+        <Tab
+          value={"sauce"}
+          active={current === "sauce"}
+          onClick={goToLabel}
+          data-cy="sauces"
+        >
           Соусы
         </Tab>
         <Tab
           value={"fillings"}
           active={current === "fillings"}
           onClick={goToLabel}
+          data-cy="fills"
         >
           Начинки
         </Tab>

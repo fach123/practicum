@@ -1,3 +1,18 @@
+DEMO [https://fach123.github.io/practicum/](https://fach123.github.io/practicum/) 
+
+
+# Библиотеки
+[React Developer Burger Ui Components](https://yandex-praktikum.github.io/react-developer-burger-ui-components/docs/)
+
+[react-intersection-observer](https://github.com/thebuilder/react-intersection-observer)
+
+[uuid](https://www.npmjs.com/package/uuid/)
+
+[ReactDND](https://react-dnd.github.io/react-dnd/about)
+
+[redux toolkit](https://redux-toolkit.js.org/tutorials/overview)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -15,6 +30,7 @@ The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
 ### `npm test`
+### `npm cypress`
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.

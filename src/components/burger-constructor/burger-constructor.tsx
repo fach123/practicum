@@ -14,7 +14,7 @@ import {
 import { ShowBuls } from "./show-buls";
 import { ShowIngredient } from "./show-ingredient";
 import { useHistory } from "react-router-dom";
-import {IItem, useAppDispatch, useAppSelector} from "../types";
+import { IItem, useAppDispatch, useAppSelector } from "../types";
 
 const BurgerConstructor = (): JSX.Element => {
   const { user } = useAppSelector((store) => store.api);
@@ -66,7 +66,7 @@ const BurgerConstructor = (): JSX.Element => {
 
   return (
     <div className={style.inner}>
-      <div ref={drop} className={`${style.editor} mt-25`}>
+      <div ref={drop} className={`${style.editor} mt-25`} data-cy="constructor">
         <div className="mr-4">
           <ShowBuls type="top" bun={bun} />
         </div>

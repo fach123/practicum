@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Redirect, Route, RouteProps } from "react-router-dom";
-import {useAppSelector} from "./types";
+import { useAppSelector } from "./types";
 
 export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
   const { user } = useAppSelector((store) => store.api);

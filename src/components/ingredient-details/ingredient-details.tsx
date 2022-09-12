@@ -2,7 +2,7 @@ import React from "react";
 import style from "./ingredient-details.module.css";
 import { useParams } from "react-router-dom";
 import Preloader from "../preloader/preloader";
-import {IItem, useAppSelector} from "../types";
+import { IItem, useAppSelector } from "../types";
 
 interface IQuizParams {
   id: string;

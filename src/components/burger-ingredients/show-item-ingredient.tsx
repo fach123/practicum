@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./burger-ingredients.module.css";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
-import {IItem, useAppSelector} from "../types";
+import { IItem, useAppSelector } from "../types";
 
 interface IFiltered {
   filtered: Array<IItem>;
